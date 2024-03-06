@@ -150,6 +150,8 @@ $(document).ready(function () {
         $(this).addClass("active");
       }
     });
+        $(".hardtent_menu-right").animate({ scrollTop: 0 }, "slow");
+
   });
 });
 
