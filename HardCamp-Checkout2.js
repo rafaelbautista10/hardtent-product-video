@@ -150,8 +150,6 @@ $(document).ready(function () {
         $(this).addClass("active");
       }
     });
-        $(".hardtent_menu-right").animate({ scrollTop: 0 }, "slow");
-
   });
 });
 
@@ -569,9 +567,16 @@ $(document).ready(function () {
     }
   });
 
-  $(".starting-price-copy").each(function () {
-    // Find the first div child and change its content
-    $(this).find("div:first").text("+ $");
+  $(".model-price").each(function () {
+    // Retrieve the price as a float
+    var price = parseFloat($(this).text());
+    // Format the price with commas and ensure two decimal places
+    var formattedPrice = price.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    // Update the element's text with the formatted price
+    $(this).text(formattedPrice);
   });
 
   $(".flex-click").click(function () {
