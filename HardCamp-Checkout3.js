@@ -92,9 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-$(".dollar-sign").each(function () {
-  $(this).text("$");
-});
+$('.starting-price-copy').find('div:first-child').text('$');
 
 
 $(document).ready(function () {
