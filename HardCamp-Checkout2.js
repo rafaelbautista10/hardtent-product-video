@@ -92,33 +92,10 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// $(document).ready(function () {
-//   // Initially hide all categories except 'included'
-//   $(".interior, .exterior, .electric, .accessories").css("opacity", 0).hide();
-//   // Show 'included' category elements initially
-//   $(".included").css("opacity", 1).show();
+$(".dollar-sign").each(function () {
+  $(this).text("$");
+});
 
-//   $(".checkout-adds-button").on("click", function () {
-//     // Get the category from the data attribute
-//     var category = $(this).data("category");
-
-//     // Hide and show relevant elements with animation
-//     $(".interior, .exterior, .electric, .accessories, .included")
-//       .stop()
-//       .animate({ opacity: 0 }, 250, "swing", function () {
-//         $(this).hide();
-
-//         $("." + category)
-//           .stop()
-//           .css("opacity", 0)
-//           .show()
-//           .animate({ opacity: 1 }, 250, "swing");
-//       });
-
-//     $(".checkout-adds-button").removeClass("active");
-//     $(this).addClass("active");
-//   });
-// });
 
 $(document).ready(function () {
   // Initially hide all categories except 'included'
