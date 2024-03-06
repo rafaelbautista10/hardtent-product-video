@@ -92,7 +92,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-$('.starting-price-copy').find('div:first-child').text('$');
+$('.starting-price-copy').each(function() {
+  // Check if the first child is a div and perform actions
+  var $firstChildDiv = $(this).children('div:first');
+  if ($firstChildDiv.length > 0) {
+    $firstChildDiv.text('$');
+  }
+});
 
 
 $(document).ready(function () {
