@@ -530,6 +530,35 @@ $(document).ready(function () {
     });
   };
 
+  function adjustDescriptionText() {
+    // Define word limits for different screen sizes
+    let wordLimit;
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth <= 768) { // Mobile devices
+        wordLimit = 10; // Example limit
+    } else if (screenWidth <= 1024) { // Tablets
+        wordLimit = 20; // Example limit
+    } else { // Desktops and larger screens
+        wordLimit = 30; // Example limit
+    }
+
+    // Adjust text for each .add-description element
+    document.querySelectorAll('.add-description').forEach(function(elem) {
+        const originalText = elem.getAttribute('data-original-text') || elem.innerText;
+        elem.setAttribute('data-original-text', originalText); // Store original text if not already stored
+        const trimmedText = originalText.split(' ').slice(0, wordLimit).join(' ') + '...';
+        elem.innerText = trimmedText;
+    });
+}
+
+// Initial adjustment
+adjustDescriptionText();
+
+// Adjust on window resize
+window.addEventListener('resize', adjustDescriptionText);
+
+
   $(".learn-more-btn").on("click", function (event) {
     event.stopPropagation();
     $(".hardtent_menu-right").animate({ scrollTop: 0 }, "slow");
