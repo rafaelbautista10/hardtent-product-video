@@ -530,25 +530,33 @@ $(document).ready(function () {
     });
   };
 
+
   function adjustDescriptionText() {
-    // Define word limits for different screen sizes
-    let wordLimit;
+    // Determine word limits for different screen sizes
+    let wordLimit = Infinity; // No limit for screens wider than 1390px
     const screenWidth = window.innerWidth;
 
     if (screenWidth <= 768) { // Mobile devices
-        wordLimit = 10; // Example limit
-    } else if (screenWidth <= 1024) { // Tablets
         wordLimit = 20; // Example limit
-    } else { // Desktops and larger screens
+    } else if (screenWidth <= 1024) { // Tablets
         wordLimit = 30; // Example limit
+    } else if (screenWidth <= 1390) { // Small laptops
+        wordLimit = 100; // Example limit
     }
 
     // Adjust text for each .add-description element
     document.querySelectorAll('.add-description').forEach(function(elem) {
         const originalText = elem.getAttribute('data-original-text') || elem.innerText;
         elem.setAttribute('data-original-text', originalText); // Store original text if not already stored
-        const trimmedText = originalText.split(' ').slice(0, wordLimit).join(' ') + '...';
-        elem.innerText = trimmedText;
+        const words = originalText.split(' ');
+
+        if (words.length > wordLimit) {
+            const trimmedText = words.slice(0, wordLimit).join(' ') + '...';
+            elem.innerText = trimmedText;
+        } else {
+            // If the full text doesn't exceed the limit, display it without ellipsis
+            elem.innerText = originalText;
+        }
     });
 }
 
