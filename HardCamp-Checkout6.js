@@ -537,11 +537,11 @@ $(document).ready(function () {
     const screenWidth = window.innerWidth;
 
     if (screenWidth <= 768) { // Mobile devices
-        wordLimit = 20; // Example limit
+        wordLimit = 8; // Example limit
     } else if (screenWidth <= 1024) { // Tablets
-        wordLimit = 30; // Example limit
+        wordLimit = 20; // Example limit
     } else if (screenWidth <= 1390) { // Small laptops
-        wordLimit = 100; // Example limit
+        wordLimit = 40; // Example limit
     }
 
     // Adjust text for each .add-description element
