@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function reverseVideo() {
     const reverseInterval = 30;
-    const stepBack = 0.05;
+    const stepBack = 0.03;
 
     if (video.playbackRate !== 1) {
       video.playbackRate = 1;
@@ -377,139 +377,7 @@ $(document).ready(function () {
       $(".toggle-close").click();
     }, 100));
 }),
-  gsap.registerPlugin(ScrollTrigger),
-  document.addEventListener("DOMContentLoaded", () => {
-    let e = document.getElementById("scroll-video");
-    e.muted = !0;
-    let t = window.innerWidth < 768,
-      i = window.innerHeight,
-      a,
-      s;
-    t
-      ? ((a = i + 2e3), (s = "+=3000px"))
-      : ((a = i + 2760 + i), (s = "+=3560px"));
-    document.querySelector(".scroll-video-container").style.height = `${a}px`;
-    let o = gsap
-      .timeline()
-      .to(e, { currentTime: 6.2, duration: 6.2, ease: "none" })
-      .to({}, { duration: 1.3 });
-    ScrollTrigger.create({
-      trigger: ".scroll-video-container",
-      start: "top top",
-      end: s,
-      pin: !0,
-      pinSpacing: !1,
-      scrub: !0,
-      animation: o,
-    }),
-      gsap.set(".text-element", { opacity: 0 });
-    let l = 1.02,
-      c = [
-        { start: 100 * l, end: 1450 },
-        { start: 2280 * l, end: 2590 * l },
-        { start: 2660 * l, end: 2910 * l },
-        { start: 2940 * l, end: 3500 * l },
-      ],
-      n = gsap.utils.toArray(".text-element");
-    n.forEach((e, t) => {
-      let { start: i, end: a } = c[t],
-        s = gsap.timeline({
-          scrollTrigger: {
-            trigger: e,
-            start: () => e.offsetTop + i + "px bottom",
-            end: () => e.offsetTop + a + "px bottom",
-            scrub: !0,
-            markers: !1,
-          },
-        });
-      t === n.length - 1
-        ? s.to(e, { opacity: 1, duration: 0.27 })
-        : s
-            .to(e, { opacity: 1, duration: 0.27 })
-            .to(e, { opacity: 0, duration: 0.27 });
-    });
-    let r = [100, 2400, 2650, 3e3],
-      d = document.querySelectorAll(".scroll-circle");
-    d.forEach((e, t) => {
-      e.addEventListener("click", () => {
-        window.scrollTo({ top: r[t] - 250, behavior: "smooth" });
-      });
-    }),
-      window.addEventListener("scroll", () => {
-        let e = window.scrollY + 250;
-        d.forEach((t, i) => {
-          e >= r[i] ? t.classList.add("active") : t.classList.remove("active");
-        });
-      });
-  }),
-  document.querySelectorAll(".size-option").forEach((e) => {
-    e.addEventListener("click", function () {
-      this.classList.contains("active") ||
-        (document
-          .querySelector(".size-option.active")
-          .classList.remove("active"),
-        this.classList.add("active"),
-        updateDisplay());
-    });
-  }),
-  document.querySelectorAll(".option-two").forEach((e) => {
-    e.querySelectorAll(".option-button").forEach((e) => {
-      e.addEventListener("click", function () {
-        this.classList.contains("active") ||
-          (syncOptions(this.id), updateDisplay());
-      });
-    });
-  }),
-  updateDisplay(),
-  document.addEventListener("DOMContentLoaded", function () {
-    let e = document.getElementById("myVideo"),
-      t = document.querySelector(".toggle-close"),
-      i = document.querySelector(".toggle-open"),
-      a = document.querySelectorAll(".toggle-circle"),
-      s = null;
-    function o() {
-      1 !== e.playbackRate && (e.playbackRate = 1),
-        (s = setInterval(function () {
-          e.currentTime <= 0
-            ? (clearInterval(s), e.pause(), (e.currentTime = 0))
-            : (e.currentTime -= 0.05);
-        }, 30));
-    }
-    i.addEventListener("click", function () {
-      s && clearInterval(s),
-        e.play(),
-        i.classList.add("active"),
-        t.classList.remove("active"),
-        a[0].classList.remove("active"),
-        a[1].classList.add("active");
-    }),
-      a[1].addEventListener("click", function () {
-        this.classList.contains("active") ||
-          (s && clearInterval(s),
-          e.play(),
-          i.classList.add("active"),
-          t.classList.remove("active"),
-          a[0].classList.remove("active"),
-          this.classList.add("active"));
-      }),
-      t.addEventListener("click", function () {
-        s && clearInterval(s),
-          o(),
-          t.classList.add("active"),
-          i.classList.remove("active"),
-          a[0].classList.add("active"),
-          a[1].classList.remove("active");
-      }),
-      a[0].addEventListener("click", function () {
-        this.classList.contains("active") ||
-          (s && clearInterval(s),
-          o(),
-          t.classList.add("active"),
-          i.classList.remove("active"),
-          this.classList.add("active"),
-          a[1].classList.remove("active"));
-      });
-  });
+
 var swiperTimeline = new Swiper(".swipermodels", {
   slidesPerView: "auto",
   spaceBetween: 30,
