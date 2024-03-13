@@ -331,15 +331,6 @@ $(document).ready(function () {
   });
 });
 
-var swiperTimeline = new Swiper(".adventure-slider", {
-  slidesPerView: "auto",
-  spaceBetween: 30,
-  loop: true, // Enable looping
-  pagination: {
-    el: ".swiper-pagination", // Specify the pagination element
-    clickable: true, // Make the dots clickable
-  },
-});
 
 function fadeElement(e, t) {
   gsap.to(e, { duration: 0.5, autoAlpha: "in" === t ? 1 : 0 });
@@ -378,6 +369,75 @@ $(document).ready(function () {
     }, 100));
 }),
 
+
+  document.querySelectorAll(".size-option").forEach((e) => {
+    e.addEventListener("click", function () {
+      this.classList.contains("active") ||
+        (document
+          .querySelector(".size-option.active")
+          .classList.remove("active"),
+        this.classList.add("active"),
+        updateDisplay());
+    });
+  }),
+  document.querySelectorAll(".option-two").forEach((e) => {
+    e.querySelectorAll(".option-button").forEach((e) => {
+      e.addEventListener("click", function () {
+        this.classList.contains("active") ||
+          (syncOptions(this.id), updateDisplay());
+      });
+    });
+  }),
+  updateDisplay(),
+  document.addEventListener("DOMContentLoaded", function () {
+    let e = document.getElementById("myVideo"),
+      t = document.querySelector(".toggle-close"),
+      i = document.querySelector(".toggle-open"),
+      a = document.querySelectorAll(".toggle-circle"),
+      s = null;
+    function o() {
+      1 !== e.playbackRate && (e.playbackRate = 1),
+        (s = setInterval(function () {
+          e.currentTime <= 0
+            ? (clearInterval(s), e.pause(), (e.currentTime = 0))
+            : (e.currentTime -= 0.05);
+        }, 30));
+    }
+    i.addEventListener("click", function () {
+      s && clearInterval(s),
+        e.play(),
+        i.classList.add("active"),
+        t.classList.remove("active"),
+        a[0].classList.remove("active"),
+        a[1].classList.add("active");
+    }),
+      a[1].addEventListener("click", function () {
+        this.classList.contains("active") ||
+          (s && clearInterval(s),
+          e.play(),
+          i.classList.add("active"),
+          t.classList.remove("active"),
+          a[0].classList.remove("active"),
+          this.classList.add("active"));
+      }),
+      t.addEventListener("click", function () {
+        s && clearInterval(s),
+          o(),
+          t.classList.add("active"),
+          i.classList.remove("active"),
+          a[0].classList.add("active"),
+          a[1].classList.remove("active");
+      }),
+      a[0].addEventListener("click", function () {
+        this.classList.contains("active") ||
+          (s && clearInterval(s),
+          o(),
+          t.classList.add("active"),
+          i.classList.remove("active"),
+          this.classList.add("active"),
+          a[1].classList.remove("active"));
+      });
+  });
 var swiperTimeline = new Swiper(".swipermodels", {
   slidesPerView: "auto",
   spaceBetween: 30,
@@ -420,12 +480,23 @@ document.querySelectorAll(".swiper-button").forEach(function (e, t) {
         });
     });
   });
+// var swiperTimeline = new Swiper(".adventure-slider", {
+//   slidesPerView: "auto",
+//   spaceBetween: 30,
+//   loop: !0,
+//   pagination: { el: ".swiper-pagination", clickable: !0 },
+// });
+
 var swiperTimeline = new Swiper(".adventure-slider", {
-  slidesPerView: "auto",
-  spaceBetween: 30,
-  loop: !0,
-  pagination: { el: ".swiper-pagination", clickable: !0 },
-});
+    slidesPerView: "auto",
+    spaceBetween: 30,
+    loop: true, // Enable looping
+    pagination: {
+      el: ".swiper-pagination", // Specify the pagination element
+      clickable: true, // Make the dots clickable
+    },
+  });
+  
 // const swiper = new Swiper(".swiper.ecoflow", {
 //   autoplay: { delay: 1500 },
 //   centeredSlides: !0,
