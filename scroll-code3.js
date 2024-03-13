@@ -184,8 +184,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let reverseIntervalId = null;
 
   function reverseVideo() {
-    const reverseInterval = 30;
-    const stepBack = 0.03;
+    const reverseInterval = 50;
+    const stepBack = 0.02;
 
     if (video.playbackRate !== 1) {
       video.playbackRate = 1;
