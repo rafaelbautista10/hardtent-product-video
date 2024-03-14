@@ -1,4 +1,4 @@
-$(window).on("beforeunload", function () {
+$(document).ready(function () {
   $(window).scrollTop(0);
 });
 
