@@ -16,7 +16,7 @@ $(document).ready(function () {
     // Optionally, set a delay before triggering 'toggle-close'
     setTimeout(function () {
       $(".toggle-close").click();
-    }, 50); // Delay of 1000 milliseconds (1 second)
+    }, 100); // Delay of 1000 milliseconds (1 second)
   } else {
   }
 });
