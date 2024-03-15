@@ -183,7 +183,12 @@ document.querySelectorAll(".option-two").forEach((container) => {
 updateDisplay();
 
 document.addEventListener("DOMContentLoaded", function () {
-  const video = document.getElementById("myVideo");
+            if (window.matchMedia("(min-width: 768px)").matches) {
+            video = document.getElementById("myVideo");
+        } else {
+            video = document.getElementById("mobile-hero");
+        }
+  //const video = document.getElementById("myVideo");
   const toggleClose = document.querySelector(".toggle-close");
   const toggleOpen = document.querySelector(".toggle-open");
   const toggleCircles = document.querySelectorAll(".toggle-circle");
