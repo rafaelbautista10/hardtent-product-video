@@ -11,11 +11,10 @@ $(document).ready(function () {
     // 768px is a common breakpoint for mobile devices
     // Trigger click on 'toggle-open'
 
-
     setTimeout(function () {
       $(".toggle-open").click();
     }, 50);
-    
+
     // Optionally, set a delay before triggering 'toggle-close'
     setTimeout(function () {
       $(".toggle-close").click();
@@ -35,26 +34,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const toggleCircles = document.querySelectorAll(".toggle-circle");
   let reverseIntervalId = null;
 
-function reverseVideo() {
+  function reverseVideo() {
     // Use window width to determine the values for mobile vs desktop
     const isMobile = window.innerWidth < 768;
     const reverseInterval = isMobile ? 30 : 50; // 30 for mobile, 50 for desktop
     const stepBack = isMobile ? 0.04 : 0.02; // 0.05 for mobile, 0.02 for desktop
 
     if (video.playbackRate !== 1) {
-        video.playbackRate = 1;
+      video.playbackRate = 1;
     }
 
     reverseIntervalId = setInterval(function () {
-        if (video.currentTime <= 0) {
-            clearInterval(reverseIntervalId);
-            video.pause();
-            video.currentTime = 0;
-        } else {
-            video.currentTime -= stepBack;
-        }
+      if (video.currentTime <= 0) {
+        clearInterval(reverseIntervalId);
+        video.pause();
+        video.currentTime = 0;
+      } else {
+        video.currentTime -= stepBack;
+      }
     }, reverseInterval);
-}
+  }
 
   toggleOpen.addEventListener("click", function () {
     if (reverseIntervalId) {
@@ -121,22 +120,30 @@ document.addEventListener("DOMContentLoaded", () => {
   let scrollAreaHeight, endValue;
 
   if (isMobile) {
-    // Adjust these values for mobile
-    scrollAreaHeight = windowHeight + 2000; // Example adjustment
+    scrollAreaHeight = windowHeight + 2000;
     endValue = "+=3000px";
   } else {
-    // Desktop values
-    scrollAreaHeight = windowHeight + 2760 + windowHeight;
+    scrollAreaHeight = windowHeight * 2 + 2760;
     endValue = "+=3560px";
   }
 
   let videoContainer = document.querySelector(".scroll-video-container");
   videoContainer.style.height = `${scrollAreaHeight}px`;
 
-  let videoTimeline = gsap
-    .timeline()
-    .to(videoElement, { currentTime: 6.2, duration: 6.2, ease: "none" })
-    .to({}, { duration: 1.3 });
+  let videoTimeline = gsap.timeline();
+
+  videoTimeline
+    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
+    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
+    // Assuming a brief period of normal playback to transition from the first slow down to the second
+    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
+    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+    .to(videoElement, {
+      currentTime: videoElement.duration,
+      duration: videoElement.duration - 5.6,
+      ease: "none",
+    }); // Continue to the end
+
   ScrollTrigger.create({
     trigger: ".scroll-video-container",
     start: "top top",
@@ -149,34 +156,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gsap.set(".text-element", { opacity: 0 });
 
-  let multiplier = 1.02; // You can adjust this value as needed
+  let multiplier = 1.034; // Assuming this remains constant
 
   let textFadeInPositions = [
-    { start: 100 * multiplier, end: 1450 },
-    { start: 2280 * multiplier, end: 2590 * multiplier },
-    { start: 2660 * multiplier, end: 2910 * multiplier },
-    { start: 2940 * multiplier, end: 3500 * multiplier },
+    { start: 100 * multiplier, end: 1410 },
+    { start: 1950 * multiplier, end: 2650 * multiplier },
+    { start: 2970 * multiplier, end: 3465 * multiplier },
+    { start: 3590 * multiplier, end: 4600 * multiplier },
   ];
 
   let textElements = gsap.utils.toArray(".text-element");
   textElements.forEach((element, index) => {
-    let { start: fadeInStart, end: fadeInEnd } = textFadeInPositions[index];
-    let textTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: element,
-        start: () => element.offsetTop + fadeInStart + "px bottom",
-        end: () => element.offsetTop + fadeInEnd + "px bottom",
-        scrub: true,
-        markers: false,
-      },
-    });
-    if (index === textElements.length - 1) {
-      textTimeline.to(element, { opacity: 1, duration: 0.27 });
-    } else {
-      textTimeline
-        .to(element, { opacity: 1, duration: 0.27 })
-        .to(element, { opacity: 0, duration: 0.27 });
-    }
+    let { start, end } = textFadeInPositions[index];
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: element,
+          start: () => `${element.offsetTop + start}px bottom`,
+          end: () => `${element.offsetTop + end}px bottom`,
+          scrub: true,
+        },
+      })
+      .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
+      .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
   });
 
   let circleJumpPositions = [100, 2400, 2650, 3000];
@@ -201,6 +203,98 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   let videoElement = document.getElementById("scroll-video");
+//   videoElement.muted = true;
+
+//   let screenWidth = window.innerWidth;
+//   let isMobile = screenWidth < 768;
+
+//   let windowHeight = window.innerHeight;
+//   let scrollAreaHeight, endValue;
+
+//   if (isMobile) {
+//     // Adjust these values for mobile
+//     scrollAreaHeight = windowHeight + 2000; // Example adjustment
+//     endValue = "+=3000px";
+//   } else {
+//     // Desktop values
+//     scrollAreaHeight = windowHeight + 2760 + windowHeight;
+//     endValue = "+=3560px";
+//   }
+
+//   let videoContainer = document.querySelector(".scroll-video-container");
+//   videoContainer.style.height = `${scrollAreaHeight}px`;
+
+//   let videoTimeline = gsap
+//     .timeline()
+//     .to(videoElement, { currentTime: 6.2, duration: 6.2, ease: "none" })
+//     .to({}, { duration: 1.3 });
+//   ScrollTrigger.create({
+//     trigger: ".scroll-video-container",
+//     start: "top top",
+//     end: endValue,
+//     pin: true,
+//     pinSpacing: false,
+//     scrub: true,
+//     animation: videoTimeline,
+//   });
+
+//   gsap.set(".text-element", { opacity: 0 });
+
+//   let multiplier = 1.02; // You can adjust this value as needed
+
+//   let textFadeInPositions = [
+//     { start: 100 * multiplier, end: 1450 },
+//     { start: 2280 * multiplier, end: 2590 * multiplier },
+//     { start: 2660 * multiplier, end: 2910 * multiplier },
+//     { start: 2940 * multiplier, end: 3500 * multiplier },
+//   ];
+
+//   let textElements = gsap.utils.toArray(".text-element");
+//   textElements.forEach((element, index) => {
+//     let { start: fadeInStart, end: fadeInEnd } = textFadeInPositions[index];
+//     let textTimeline = gsap.timeline({
+//       scrollTrigger: {
+//         trigger: element,
+//         start: () => element.offsetTop + fadeInStart + "px bottom",
+//         end: () => element.offsetTop + fadeInEnd + "px bottom",
+//         scrub: true,
+//         markers: false,
+//       },
+//     });
+//     if (index === textElements.length - 1) {
+//       textTimeline.to(element, { opacity: 1, duration: 0.27 });
+//     } else {
+//       textTimeline
+//         .to(element, { opacity: 1, duration: 0.27 })
+//         .to(element, { opacity: 0, duration: 0.27 });
+//     }
+//   });
+
+//   let circleJumpPositions = [100, 2400, 2650, 3000];
+//   let circleElements = document.querySelectorAll(".scroll-circle");
+//   circleElements.forEach((circle, index) => {
+//     circle.addEventListener("click", () => {
+//       window.scrollTo({
+//         top: circleJumpPositions[index] - 250,
+//         behavior: "smooth",
+//       });
+//     });
+//   });
+
+//   window.addEventListener("scroll", () => {
+//     let scrollPosition = window.scrollY + 250;
+//     circleElements.forEach((circle, index) => {
+//       if (scrollPosition >= circleJumpPositions[index]) {
+//         circle.classList.add("active");
+//       } else {
+//         circle.classList.remove("active");
+//       }
+//     });
+//   });
+// });
 
 function fadeElement(element, action) {
   gsap.to(element, { duration: 0.5, autoAlpha: action === "in" ? 1 : 0 });
@@ -306,14 +400,15 @@ document.querySelectorAll(".swiper-button").forEach(function (button, index) {
   });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Set the first navigation button as active initially
-  const firstNavigationButton = document.querySelector('.swiper-button[data-slide="0"]');
+  const firstNavigationButton = document.querySelector(
+    '.swiper-button[data-slide="0"]'
+  );
   if (firstNavigationButton) {
     firstNavigationButton.classList.add("active");
   }
 });
-
 
 $(document).ready(function () {
   $(".tab-button").click(function () {
@@ -473,33 +568,35 @@ document.querySelectorAll(".swiper-button").forEach(function (e, t) {
     swiperTimeline.slideToLoop(t);
   });
 }),
-document.addEventListener("DOMContentLoaded", function() {
-  // Set the first navigation button as active initially
-  const firstNavigationButton = document.querySelector('.swiper-button[data-slide="0"]');
-  if (firstNavigationButton) {
-    firstNavigationButton.classList.add("active");
-  }
-});
-
-  $(document).ready(function () {
-    $(".tab-button").click(function () {
-      $(".tab-button").removeClass("active"), $(this).addClass("active");
-      var e = $(this).index();
-      $(".tab-content").removeClass("active"),
-        $(".tab-content").eq(e).addClass("active"),
-        gsap.to(".tab-images", {
-          duration: 0.33,
-          autoAlpha: 0,
-          ease: "power1.out",
-          onComplete: function () {
-            $(".tab-images").hide();
-            var t = $(".tab-images").eq(e);
-            t.css("display", "flex"),
-              gsap.to(t, { duration: 0.33, autoAlpha: 1, ease: "power1.in" });
-          },
-        });
-    });
+  document.addEventListener("DOMContentLoaded", function () {
+    // Set the first navigation button as active initially
+    const firstNavigationButton = document.querySelector(
+      '.swiper-button[data-slide="0"]'
+    );
+    if (firstNavigationButton) {
+      firstNavigationButton.classList.add("active");
+    }
   });
+
+$(document).ready(function () {
+  $(".tab-button").click(function () {
+    $(".tab-button").removeClass("active"), $(this).addClass("active");
+    var e = $(this).index();
+    $(".tab-content").removeClass("active"),
+      $(".tab-content").eq(e).addClass("active"),
+      gsap.to(".tab-images", {
+        duration: 0.33,
+        autoAlpha: 0,
+        ease: "power1.out",
+        onComplete: function () {
+          $(".tab-images").hide();
+          var t = $(".tab-images").eq(e);
+          t.css("display", "flex"),
+            gsap.to(t, { duration: 0.33, autoAlpha: 1, ease: "power1.in" });
+        },
+      });
+  });
+});
 // var swiperTimeline = new Swiper(".adventure-slider", {
 //   slidesPerView: "auto",
 //   spaceBetween: 30,
@@ -507,7 +604,7 @@ document.addEventListener("DOMContentLoaded", function() {
 //   pagination: { el: ".swiper-pagination", clickable: !0 },
 // });
 
-$(document).ready(function() {
+$(document).ready(function () {
   var swiperTimeline = new Swiper(".adventure-slider", {
     slidesPerView: "auto",
     spaceBetween: 30,
