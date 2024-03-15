@@ -11,8 +11,11 @@ $(document).ready(function () {
     // 768px is a common breakpoint for mobile devices
     // Trigger click on 'toggle-open'
 
-    $(".toggle-open").click();
 
+    setTimeout(function () {
+      $(".toggle-open").click();
+    }, 50);
+    
     // Optionally, set a delay before triggering 'toggle-close'
     setTimeout(function () {
       $(".toggle-close").click();
