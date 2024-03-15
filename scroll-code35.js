@@ -498,39 +498,32 @@ document.querySelectorAll(".swiper-button").forEach(function (e, t) {
 //   pagination: { el: ".swiper-pagination", clickable: !0 },
 // });
 
-var swiperTimeline = new Swiper(".adventure-slider", {
-  slidesPerView: "auto",
-  spaceBetween: 30,
-  loop: true, // Enable looping
-  pagination: {
-    el: ".swiper-pagination", // Specify the pagination element
-    clickable: true, // Make the dots clickable
-  },
-});
-
-// const swiper = new Swiper(".swiper.ecoflow", {
-//   autoplay: { delay: 1500 },
-//   centeredSlides: !0,
-//   slidesPerView: 2,
-//   spaceBetween: 0,
-//   loop: !0,
-//   speed: 600,
-// });
-
-const swiper = new Swiper(".swiper.ecoflow", {
-  autoplay: {
-    delay: 1500,
-  },
-  centeredSlides: true, // Center slides
-  slidesPerView: 1,
-  spaceBetween: 0,
-  loop: true,
-  speed: 600,
-  // Define breakpoints
-  breakpoints: {
-    // when window width is <= 568px
-    568: {
-      slidesPerView: 2,
+$(document).ready(function() {
+  var swiperTimeline = new Swiper(".adventure-slider", {
+    slidesPerView: "auto",
+    spaceBetween: 30,
+    loop: true, // Enable looping
+    pagination: {
+      el: ".swiper-pagination", // Specify the pagination element
+      clickable: true, // Make the dots clickable
     },
-  },
+  });
+
+  const swiper = new Swiper(".swiper.ecoflow", {
+    autoplay: {
+      delay: 1500,
+    },
+    centeredSlides: true, // Center slides
+    slidesPerView: 1,
+    spaceBetween: 0,
+    loop: true,
+    speed: 600,
+    // Define breakpoints
+    breakpoints: {
+      // when window width is <= 568px
+      568: {
+        slidesPerView: 2,
+      },
+    },
+  });
 });
