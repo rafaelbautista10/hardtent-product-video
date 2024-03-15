@@ -180,7 +180,8 @@ document.querySelectorAll(".option-two").forEach((container) => {
 updateDisplay();
 
 document.addEventListener("DOMContentLoaded", function () {
-  const video = document.getElementById("myVideo");
+  //const video = document.getElementById("myVideo");
+  const video = $(".myVideo");
   const toggleClose = document.querySelector(".toggle-close");
   const toggleOpen = document.querySelector(".toggle-open");
   const toggleCircles = document.querySelectorAll(".toggle-circle");
