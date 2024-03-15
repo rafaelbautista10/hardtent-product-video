@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function reverseVideo() {
     // Use window width to determine the values for mobile vs desktop
     const isMobile = window.innerWidth < 768;
-    const reverseInterval = isMobile ? 70 : 50; // 30 for mobile, 50 for desktop
-    const stepBack = isMobile ? 0.18 : 0.02; // 0.05 for mobile, 0.02 for desktop
+    const reverseInterval = isMobile ? 60 : 50; // 30 for mobile, 50 for desktop
+    const stepBack = isMobile ? 0.05 : 0.02; // 0.05 for mobile, 0.02 for desktop
 
     if (video.playbackRate !== 1) {
         video.playbackRate = 1;
