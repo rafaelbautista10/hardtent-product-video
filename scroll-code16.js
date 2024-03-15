@@ -23,8 +23,9 @@ $(document).ready(function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const video = $(window).width() >= 768 ? $('#myVideo') : $('#mobile-hero');
-
+    const videoElementId = $(window).width() >= 768 ? 'myVideo' : 'mobile-hero';
+    // Use document.getElementById to get the actual DOM element
+    const video = document.getElementById(videoElementId);
   //const video = document.getElementById("myVideo");
   const toggleClose = document.querySelector(".toggle-close");
   const toggleOpen = document.querySelector(".toggle-open");
