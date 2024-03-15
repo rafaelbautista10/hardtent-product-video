@@ -306,10 +306,14 @@ document.querySelectorAll(".swiper-button").forEach(function (button, index) {
   });
 });
 
-// Set the first navigation button as active initially
-document
-  .querySelector('.swiper-button[data-slide="0"]')
-  .classList.add("active");
+document.addEventListener("DOMContentLoaded", function() {
+  // Set the first navigation button as active initially
+  const firstNavigationButton = document.querySelector('.swiper-button[data-slide="0"]');
+  if (firstNavigationButton) {
+    firstNavigationButton.classList.add("active");
+  }
+});
+
 
 $(document).ready(function () {
   $(".tab-button").click(function () {
