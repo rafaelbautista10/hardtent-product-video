@@ -22,6 +22,87 @@ $(document).ready(function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const video = $(window).width() >= 768 ? $('#myVideo') : $('#mobile-hero');
+
+  const video = document.getElementById("myVideo");
+  const toggleClose = document.querySelector(".toggle-close");
+  const toggleOpen = document.querySelector(".toggle-open");
+  const toggleCircles = document.querySelectorAll(".toggle-circle");
+  let reverseIntervalId = null;
+
+  function reverseVideo() {
+    const reverseInterval = 50;
+    const stepBack = 0.02;
+
+    if (video.playbackRate !== 1) {
+      video.playbackRate = 1;
+    }
+
+    reverseIntervalId = setInterval(function () {
+      if (video.currentTime <= 0) {
+        clearInterval(reverseIntervalId);
+        video.pause();
+        video.currentTime = 0;
+      } else {
+        video.currentTime -= stepBack;
+      }
+    }, reverseInterval);
+  }
+
+  toggleOpen.addEventListener("click", function () {
+    if (reverseIntervalId) {
+      clearInterval(reverseIntervalId);
+    }
+    video.play();
+
+    toggleOpen.classList.add("active");
+    toggleClose.classList.remove("active");
+    toggleCircles[0].classList.remove("active");
+    toggleCircles[1].classList.add("active");
+  });
+
+  toggleCircles[1].addEventListener("click", function () {
+    if (!this.classList.contains("active")) {
+      if (reverseIntervalId) {
+        clearInterval(reverseIntervalId);
+      }
+      video.play();
+
+      toggleOpen.classList.add("active");
+      toggleClose.classList.remove("active");
+      toggleCircles[0].classList.remove("active");
+      this.classList.add("active");
+    }
+  });
+
+  toggleClose.addEventListener("click", function () {
+    if (reverseIntervalId) {
+      clearInterval(reverseIntervalId);
+    }
+    reverseVideo();
+
+    toggleClose.classList.add("active");
+    toggleOpen.classList.remove("active");
+    toggleCircles[0].classList.add("active");
+    toggleCircles[1].classList.remove("active");
+  });
+
+  toggleCircles[0].addEventListener("click", function () {
+    if (!this.classList.contains("active")) {
+      if (reverseIntervalId) {
+        clearInterval(reverseIntervalId);
+      }
+      reverseVideo();
+
+      toggleClose.classList.add("active");
+      toggleOpen.classList.remove("active");
+      this.classList.add("active");
+      toggleCircles[1].classList.remove("active");
+    }
+  });
+});
+
 gsap.registerPlugin(ScrollTrigger);
 document.addEventListener("DOMContentLoaded", () => {
   let videoElement = document.getElementById("scroll-video");
@@ -182,90 +263,7 @@ document.querySelectorAll(".option-two").forEach((container) => {
 
 updateDisplay();
 
-document.addEventListener("DOMContentLoaded", function () {
-    let video; 
-            if (window.matchMedia("(min-width: 768px)").matches) {
-            video = document.getElementById("myVideo");
-        } else {
-            video = document.getElementById("mobile-hero");
-        }
-  //const video = document.getElementById("myVideo");
-  const toggleClose = document.querySelector(".toggle-close");
-  const toggleOpen = document.querySelector(".toggle-open");
-  const toggleCircles = document.querySelectorAll(".toggle-circle");
-  let reverseIntervalId = null;
 
-  function reverseVideo() {
-    const reverseInterval = 50;
-    const stepBack = 0.02;
-
-    if (video.playbackRate !== 1) {
-      video.playbackRate = 1;
-    }
-
-    reverseIntervalId = setInterval(function () {
-      if (video.currentTime <= 0) {
-        clearInterval(reverseIntervalId);
-        video.pause();
-        video.currentTime = 0;
-      } else {
-        video.currentTime -= stepBack;
-      }
-    }, reverseInterval);
-  }
-
-  toggleOpen.addEventListener("click", function () {
-    if (reverseIntervalId) {
-      clearInterval(reverseIntervalId);
-    }
-    video.play();
-
-    toggleOpen.classList.add("active");
-    toggleClose.classList.remove("active");
-    toggleCircles[0].classList.remove("active");
-    toggleCircles[1].classList.add("active");
-  });
-
-  toggleCircles[1].addEventListener("click", function () {
-    if (!this.classList.contains("active")) {
-      if (reverseIntervalId) {
-        clearInterval(reverseIntervalId);
-      }
-      video.play();
-
-      toggleOpen.classList.add("active");
-      toggleClose.classList.remove("active");
-      toggleCircles[0].classList.remove("active");
-      this.classList.add("active");
-    }
-  });
-
-  toggleClose.addEventListener("click", function () {
-    if (reverseIntervalId) {
-      clearInterval(reverseIntervalId);
-    }
-    reverseVideo();
-
-    toggleClose.classList.add("active");
-    toggleOpen.classList.remove("active");
-    toggleCircles[0].classList.add("active");
-    toggleCircles[1].classList.remove("active");
-  });
-
-  toggleCircles[0].addEventListener("click", function () {
-    if (!this.classList.contains("active")) {
-      if (reverseIntervalId) {
-        clearInterval(reverseIntervalId);
-      }
-      reverseVideo();
-
-      toggleClose.classList.add("active");
-      toggleOpen.classList.remove("active");
-      this.classList.add("active");
-      toggleCircles[1].classList.remove("active");
-    }
-  });
-});
 
 var swiperTimeline = new Swiper(".swipermodels", {
   slidesPerView: "auto",
