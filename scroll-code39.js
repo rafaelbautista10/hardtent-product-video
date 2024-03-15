@@ -2,7 +2,7 @@ $(window).on("load", function () {
   // Delay the scroll to ensure all content has loaded
   setTimeout(function () {
     $(window).scrollTop(0);
-  }, 50);
+  }, 10);
 });
 
 $(document).ready(function () {
