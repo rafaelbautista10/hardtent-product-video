@@ -1,8 +1,8 @@
-$(window).on("load", function() {
-    // Delay the scroll to ensure all content has loaded
-    setTimeout(function() {
-        $(window).scrollTop(0);
-    }, 50); 
+$(window).on("load", function () {
+  // Delay the scroll to ensure all content has loaded
+  setTimeout(function () {
+    $(window).scrollTop(0);
+  }, 50);
 });
 
 $(document).ready(function () {
@@ -17,39 +17,41 @@ $(document).ready(function () {
     setTimeout(function () {
       $(".toggle-close").click();
     }, 100); // Delay of 1000 milliseconds (1 second)
-  } else 
-    {
-    }
+  } else {
+  }
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const videoElementId = $(window).width() >= 768 ? 'myVideo' : 'mobile-hero';
-    // Use document.getElementById to get the actual DOM element
-    const video = document.getElementById(videoElementId);
+  const videoElementId = $(window).width() >= 768 ? "myVideo" : "mobile-hero";
+  // Use document.getElementById to get the actual DOM element
+  const video = document.getElementById(videoElementId);
+
   //const video = document.getElementById("myVideo");
   const toggleClose = document.querySelector(".toggle-close");
   const toggleOpen = document.querySelector(".toggle-open");
   const toggleCircles = document.querySelectorAll(".toggle-circle");
   let reverseIntervalId = null;
 
-  function reverseVideo() {
-    const reverseInterval = 50;
-    const stepBack = 0.02;
+function reverseVideo() {
+    // Use window width to determine the values for mobile vs desktop
+    const isMobile = window.innerWidth < 768;
+    const reverseInterval = isMobile ? 30 : 50; // 30 for mobile, 50 for desktop
+    const stepBack = isMobile ? 0.05 : 0.02; // 0.05 for mobile, 0.02 for desktop
 
     if (video.playbackRate !== 1) {
-      video.playbackRate = 1;
+        video.playbackRate = 1;
     }
 
     reverseIntervalId = setInterval(function () {
-      if (video.currentTime <= 0) {
-        clearInterval(reverseIntervalId);
-        video.pause();
-        video.currentTime = 0;
-      } else {
-        video.currentTime -= stepBack;
-      }
+        if (video.currentTime <= 0) {
+            clearInterval(reverseIntervalId);
+            video.pause();
+            video.currentTime = 0;
+        } else {
+            video.currentTime -= stepBack;
+        }
     }, reverseInterval);
-  }
+}
 
   toggleOpen.addEventListener("click", function () {
     if (reverseIntervalId) {
@@ -264,8 +266,6 @@ document.querySelectorAll(".option-two").forEach((container) => {
 
 updateDisplay();
 
-
-
 var swiperTimeline = new Swiper(".swipermodels", {
   slidesPerView: "auto",
   spaceBetween: 30,
@@ -342,7 +342,6 @@ $(document).ready(function () {
   });
 });
 
-
 function fadeElement(e, t) {
   gsap.to(e, { duration: 0.5, autoAlpha: "in" === t ? 1 : 0 });
 }
@@ -379,8 +378,6 @@ $(document).ready(function () {
       $(".toggle-close").click();
     }, 100));
 }),
-
-
   document.querySelectorAll(".size-option").forEach((e) => {
     e.addEventListener("click", function () {
       this.classList.contains("active") ||
@@ -499,15 +496,15 @@ document.querySelectorAll(".swiper-button").forEach(function (e, t) {
 // });
 
 var swiperTimeline = new Swiper(".adventure-slider", {
-    slidesPerView: "auto",
-    spaceBetween: 30,
-    loop: true, // Enable looping
-    pagination: {
-      el: ".swiper-pagination", // Specify the pagination element
-      clickable: true, // Make the dots clickable
-    },
-  });
-  
+  slidesPerView: "auto",
+  spaceBetween: 30,
+  loop: true, // Enable looping
+  pagination: {
+    el: ".swiper-pagination", // Specify the pagination element
+    clickable: true, // Make the dots clickable
+  },
+});
+
 // const swiper = new Swiper(".swiper.ecoflow", {
 //   autoplay: { delay: 1500 },
 //   centeredSlides: !0,
