@@ -11,12 +11,12 @@ $(document).ready(function () {
     // 768px is a common breakpoint for mobile devices
     // Trigger click on 'toggle-open'
 
-    //$(".toggle-open").click();
+    $(".toggle-open").click();
 
     // Optionally, set a delay before triggering 'toggle-close'
     setTimeout(function () {
-      //$(".toggle-close").click();
-    }, 100); // Delay of 1000 milliseconds (1 second)
+      $(".toggle-close").click();
+    }, 50); // Delay of 1000 milliseconds (1 second)
   } else {
   }
 });
