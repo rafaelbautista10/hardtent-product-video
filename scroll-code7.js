@@ -10,13 +10,18 @@ $(document).ready(function () {
   if ($(window).width() < 768) {
     // 768px is a common breakpoint for mobile devices
     // Trigger click on 'toggle-open'
+    document.querySelector(".hero-video").remove();
+
     $(".toggle-open").click();
 
     // Optionally, set a delay before triggering 'toggle-close'
     setTimeout(function () {
       $(".toggle-close").click();
     }, 100); // Delay of 1000 milliseconds (1 second)
-  }
+  } else 
+    {
+        document.querySelector(".mobile-video").remove();
+    }
 });
 
 gsap.registerPlugin(ScrollTrigger);
