@@ -10,7 +10,6 @@ $(document).ready(function () {
   if ($(window).width() < 768) {
     // 768px is a common breakpoint for mobile devices
     // Trigger click on 'toggle-open'
-    document.querySelector(".hero-video").remove();
 
     $(".toggle-open").click();
 
@@ -20,7 +19,6 @@ $(document).ready(function () {
     }, 100); // Delay of 1000 milliseconds (1 second)
   } else 
     {
-        document.querySelector(".mobile-video").remove();
     }
 });
 
