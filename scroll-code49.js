@@ -640,55 +640,55 @@ $(document).ready(function () {
     });
   }),
   updateDisplay(),
-  document.addEventListener("DOMContentLoaded", function () {
-    let e = document.getElementById("myVideo"),
-      t = document.querySelector(".toggle-close"),
-      i = document.querySelector(".toggle-open"),
-      a = document.querySelectorAll(".toggle-circle"),
-      s = null;
-    function o() {
-      1 !== e.playbackRate && (e.playbackRate = 1),
-        (s = setInterval(function () {
-          e.currentTime <= 0
-            ? (clearInterval(s), e.pause(), (e.currentTime = 0))
-            : (e.currentTime -= 0.05);
-        }, 30));
-    }
-    i.addEventListener("click", function () {
-      s && clearInterval(s),
-        e.play(),
-        i.classList.add("active"),
-        t.classList.remove("active"),
-        a[0].classList.remove("active"),
-        a[1].classList.add("active");
-    }),
-      a[1].addEventListener("click", function () {
-        this.classList.contains("active") ||
-          (s && clearInterval(s),
-          e.play(),
-          i.classList.add("active"),
-          t.classList.remove("active"),
-          a[0].classList.remove("active"),
-          this.classList.add("active"));
-      }),
-      t.addEventListener("click", function () {
-        s && clearInterval(s),
-          o(),
-          t.classList.add("active"),
-          i.classList.remove("active"),
-          a[0].classList.add("active"),
-          a[1].classList.remove("active");
-      }),
-      a[0].addEventListener("click", function () {
-        this.classList.contains("active") ||
-          (s && clearInterval(s),
-          o(),
-          t.classList.add("active"),
-          i.classList.remove("active"),
-          this.classList.add("active"),
-          a[1].classList.remove("active"));
-      });
-  });
+//   document.addEventListener("DOMContentLoaded", function () {
+//     let e = document.getElementById("myVideo"),
+//       t = document.querySelector(".toggle-close"),
+//       i = document.querySelector(".toggle-open"),
+//       a = document.querySelectorAll(".toggle-circle"),
+//       s = null;
+//     function o() {
+//       1 !== e.playbackRate && (e.playbackRate = 1),
+//         (s = setInterval(function () {
+//           e.currentTime <= 0
+//             ? (clearInterval(s), e.pause(), (e.currentTime = 0))
+//             : (e.currentTime -= 0.05);
+//         }, 30));
+//     }
+//     i.addEventListener("click", function () {
+//       s && clearInterval(s),
+//         e.play(),
+//         i.classList.add("active"),
+//         t.classList.remove("active"),
+//         a[0].classList.remove("active"),
+//         a[1].classList.add("active");
+//     }),
+//       a[1].addEventListener("click", function () {
+//         this.classList.contains("active") ||
+//           (s && clearInterval(s),
+//           e.play(),
+//           i.classList.add("active"),
+//           t.classList.remove("active"),
+//           a[0].classList.remove("active"),
+//           this.classList.add("active"));
+//       }),
+//       t.addEventListener("click", function () {
+//         s && clearInterval(s),
+//           o(),
+//           t.classList.add("active"),
+//           i.classList.remove("active"),
+//           a[0].classList.add("active"),
+//           a[1].classList.remove("active");
+//       }),
+//       a[0].addEventListener("click", function () {
+//         this.classList.contains("active") ||
+//           (s && clearInterval(s),
+//           o(),
+//           t.classList.add("active"),
+//           i.classList.remove("active"),
+//           this.classList.add("active"),
+//           a[1].classList.remove("active"));
+//       });
+//   });
 var swiperTimeline = new Swiper(".swipermodels", {
   slidesPerView: "auto",
   spaceBetween: 30,
