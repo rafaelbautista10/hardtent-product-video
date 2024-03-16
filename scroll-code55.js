@@ -155,97 +155,9 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#" + elementToRemoveId).remove();
 });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   const videoElementId = $(window).width() >= 768 ? "myVideo" : "mobile-hero";
-//   // Use document.getElementById to get the actual DOM element
-//   const video = document.getElementById(videoElementId);
-
-//   // Remove the element that is not being used
-//   const elementToRemoveId =
-//     videoElementId === "myVideo" ? "mobile-hero" : "myVideo";
-//   $("#" + elementToRemoveId).remove();
-
-//   //const video = document.getElementById("myVideo");
-//   const toggleClose = document.querySelector(".toggle-close");
-//   const toggleOpen = document.querySelector(".toggle-open");
-//   const toggleCircles = document.querySelectorAll(".toggle-circle");
-//   let reverseIntervalId = null;
-
-//   function reverseVideo() {
-//     // Use window width to determine the values for mobile vs desktop
-//     const isMobile = window.innerWidth < 768;
-//     const reverseInterval = isMobile ? 30 : 50; // 30 for mobile, 50 for desktop
-//     const stepBack = isMobile ? 0.04 : 0.02; // 0.05 for mobile, 0.02 for desktop
-
-//     if (video.playbackRate !== 1) {
-//       video.playbackRate = 1;
-//     }
-
-//     reverseIntervalId = setInterval(function () {
-//       if (video.currentTime <= 0) {
-//         clearInterval(reverseIntervalId);
-//         video.pause();
-//         video.currentTime = 0;
-//       } else {
-//         video.currentTime -= stepBack;
-//       }
-//     }, reverseInterval);
-//   }
-
-//   toggleOpen.addEventListener("click", function () {
-//     if (reverseIntervalId) {
-//       clearInterval(reverseIntervalId);
-//     }
-//     video.play();
-
-//     toggleOpen.classList.add("active");
-//     toggleClose.classList.remove("active");
-//     toggleCircles[0].classList.remove("active");
-//     toggleCircles[1].classList.add("active");
-//   });
-
-//   toggleCircles[1].addEventListener("click", function () {
-//     if (!this.classList.contains("active")) {
-//       if (reverseIntervalId) {
-//         clearInterval(reverseIntervalId);
-//       }
-//       video.play();
-
-//       toggleOpen.classList.add("active");
-//       toggleClose.classList.remove("active");
-//       toggleCircles[0].classList.remove("active");
-//       this.classList.add("active");
-//     }
-//   });
-
-//   toggleClose.addEventListener("click", function () {
-//     if (reverseIntervalId) {
-//       clearInterval(reverseIntervalId);
-//     }
-//     reverseVideo();
-
-//     toggleClose.classList.add("active");
-//     toggleOpen.classList.remove("active");
-//     toggleCircles[0].classList.add("active");
-//     toggleCircles[1].classList.remove("active");
-//   });
-
-//   toggleCircles[0].addEventListener("click", function () {
-//     if (!this.classList.contains("active")) {
-//       if (reverseIntervalId) {
-//         clearInterval(reverseIntervalId);
-//       }
-//       reverseVideo();
-
-//       toggleClose.classList.add("active");
-//       toggleOpen.classList.remove("active");
-//       this.classList.add("active");
-//       toggleCircles[1].classList.remove("active");
-//     }
-//   });
-// });
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.scrollTo(0, 0);
   let videoElement = document.getElementById("scroll-video");
   videoElement.muted = true;
 
@@ -339,26 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  window.addEventListener("scroll", () => {
-    let scrollPosition = window.scrollY;
-    if (scrollPosition === 0) {
-      // Scroll position is at the top, initialize textElements and their ScrollTriggers
-      let textElements = gsap.utils.toArray(".text-element");
-      textElements.forEach((element, index) => {
-        let { start, end } = textFadeInPositions[index];
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: element,
-              start: () => `${element.offsetTop + start}px bottom`,
-              end: () => `${element.offsetTop + end}px bottom`,
-              scrub: true,
-            },
-          })
-          .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
-          .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
-      });
-    }
+  
   ScrollTrigger.refresh();
 });
 
