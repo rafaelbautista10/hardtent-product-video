@@ -7,6 +7,22 @@ $(window).on("load", function () {
   }, 10);
 });
 
+$(window).on("beforeunload", function () {
+  // Attempt to scroll to the top; note this may not work due to browser restrictions
+  $(window).scrollTop(0);
+
+  // Fade in the .fade-out div before the page unloads
+  gsap.to(".fade-out", {
+    duration: 0.32,
+    autoAlpha: 1,
+    ease: "quad.in",
+  });
+
+  // Delay the unload to allow the fade-in animation to be seen
+  // Note: Delaying the unload process may not be consistent across all browsers
+  return "Are you sure you want to leave?";
+});
+
 $(document).ready(function () {
   // Check if screen width indicates a mobile device
   if ($(window).width() < 768) {
