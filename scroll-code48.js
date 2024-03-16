@@ -273,42 +273,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let videoTimeline = gsap.timeline();
 
-  //   videoTimeline
-  //     .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-  //     .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
-  //     // Assuming a brief period of normal playback to transition from the first slow down to the second
-  //     .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
-  //     .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
-  //     .to(videoElement, {
-  //       currentTime: videoElement.duration,
-  //       duration: videoElement.duration - 5.6,
-  //       ease: "none",
-  //     }); // Continue to the end
-
   videoTimeline
     .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-    .to(videoElement, {
-      currentTime: 4.3,
-      duration: 1.7,
-      ease: "none",
-      onStart: () => alert("First slow down begins"),
-      onComplete: () => alert("First slow down ends"),
-    }) // First slow down: Slight progress over a long duration
+    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
     // Assuming a brief period of normal playback to transition from the first slow down to the second
     .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
-    .to(videoElement, {
-      currentTime: 5.501,
-      duration: 1,
-      ease: "none",
-      onStart: () => alert("Second slow down begins"),
-      onComplete: () => alert("Second slow down ends"),
-    }) // Second slow down: Similar slight progress over a long duration
+    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
     .to(videoElement, {
       currentTime: videoElement.duration,
       duration: videoElement.duration - 5.6,
       ease: "none",
-      onStart: () => alert("Final playback begins"),
-      onComplete: () => alert("Final playback ends"),
     }); // Continue to the end
 
   ScrollTrigger.create({
