@@ -158,7 +158,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    window.scrollTo(0, 0);
     let videoElement = document.getElementById("scroll-video");
     videoElement.muted = true;
   
@@ -182,15 +181,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let videoTimeline = gsap.timeline();
   
     videoTimeline
-      .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" })
-      .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" })
-      .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" })
-      .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" })
+      .to(videoElement, { currentTime: 0, duration: 1, ease: "none" }) // Start from 0 to ensure proper reset
+      .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
+      .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down
+      .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s
+      .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down
       .to(videoElement, {
         currentTime: videoElement.duration,
-        duration: videoElement.duration - 5.6,
+        duration: videoElement.duration - 5.501, // Adjust duration based on actual video length
         ease: "none",
-      });
+      }); // Continue to the end
   
     ScrollTrigger.create({
       trigger: ".scroll-video-container",
@@ -202,10 +202,12 @@ document.addEventListener("DOMContentLoaded", () => {
       animation: videoTimeline,
     });
   
-    let multiplier = 1.034;
+    gsap.set(".text-element", { opacity: 0 });
+  
+    let multiplier = 1.034; // Adjust if necessary for timing
   
     let textFadeInPositions = [
-      { start: 100 * multiplier, end: 1240 },
+      { start: 100 * multiplier, end: 1240 * multiplier },
       { start: 1950 * multiplier, end: 2650 * multiplier },
       { start: 2970 * multiplier, end: 3465 * multiplier },
       { start: 3590 * multiplier, end: 4600 * multiplier },
@@ -215,15 +217,15 @@ document.addEventListener("DOMContentLoaded", () => {
     textElements.forEach((element, index) => {
       let { start, end } = textFadeInPositions[index];
       gsap.timeline({
-          scrollTrigger: {
-            trigger: element,
-            start: () => `${element.offsetTop + start}px bottom`,
-            end: () => `${element.offsetTop + end}px bottom`,
-            scrub: true
-          },
-        })
-        .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
-        .to(element, { opacity: 0, duration: 0.27 }, "+=0.5");
+        scrollTrigger: {
+          trigger: element,
+          start: () => `${start}px bottom`,
+          end: () => `${end}px bottom`,
+          scrub: true,
+        },
+      })
+      .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
+      .to(element, { opacity: 0, duration: 0.27 }, "+=0.5");
     });
   
     let circleJumpPositions = [100, 2400, 2650, 3000];
@@ -231,16 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
     circleElements.forEach((circle, index) => {
       circle.addEventListener("click", () => {
         window.scrollTo({
-          top: circleJumpPositions[index] - 250,
+          top: circleJumpPositions[index] - windowHeight / 2, // Center circle in view
           behavior: "smooth",
         });
       });
     });
   
     window.addEventListener("scroll", () => {
-      let scrollPosition = window.scrollY + 250;
+      let scrollPosition = window.scrollY;
       circleElements.forEach((circle, index) => {
-        if (scrollPosition >= circleJumpPositions[index]) {
+        if (scrollPosition >= circleJumpPositions[index] - windowHeight / 2) {
           circle.classList.add("active");
         } else {
           circle.classList.remove("active");
@@ -250,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     ScrollTrigger.refresh();
   });
+  
   
 
 // document.addEventListener("DOMContentLoaded", () => {
