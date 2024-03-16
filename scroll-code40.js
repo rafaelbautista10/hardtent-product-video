@@ -28,6 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Use document.getElementById to get the actual DOM element
   const video = document.getElementById(videoElementId);
 
+  // Remove the element that is not being used
+  const elementToRemoveId =
+    videoElementId === "myVideo" ? "mobile-hero" : "myVideo";
+  $("#" + elementToRemoveId).remove();
+
   //const video = document.getElementById("myVideo");
   const toggleClose = document.querySelector(".toggle-close");
   const toggleOpen = document.querySelector(".toggle-open");
