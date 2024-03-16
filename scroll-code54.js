@@ -338,6 +338,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  window.addEventListener("scroll", () => {
+    let scrollPosition = window.scrollY;
+    if (scrollPosition === 0) {
+      // Scroll position is at the top, initialize textElements and their ScrollTriggers
+      let textElements = gsap.utils.toArray(".text-element");
+      textElements.forEach((element, index) => {
+        let { start, end } = textFadeInPositions[index];
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: element,
+              start: () => `${element.offsetTop + start}px bottom`,
+              end: () => `${element.offsetTop + end}px bottom`,
+              scrub: true,
+            },
+          })
+          .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
+          .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
+      });
+    }
   ScrollTrigger.refresh();
 });
 
