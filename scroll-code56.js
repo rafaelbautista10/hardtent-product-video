@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   link.addEventListener("click", function (event) {
     event.preventDefault(); // Prevent the default link behavior
-    const targetUrl = this.getAttribute("href"); // Get the href value to know where to navigate after animation
+    const targetUrl = this.getAttribute("href"); // Get the href value
 
     // Make sure the .fade-hero element is ready for animation
     const fadeHeroElement = document.querySelector(".fade-hero");
@@ -30,13 +30,15 @@ document.addEventListener("DOMContentLoaded", function () {
       autoAlpha: 1, // GSAP's autoAlpha handles both CSS opacity and visibility
       ease: "quad.in",
       onComplete: function () {
+        // Ensure scroll to top happens here if you want it just after animation
+        $(window).scrollTop(0);
+
         // Delay the navigation to the target URL after the animation completes
         setTimeout(function () {
           window.location.href = targetUrl;
-        }, 1000); // 1000 milliseconds delay before navigating
+        }, 1000); // Corrected delay for navigation
       },
     });
-    $(window).scrollTop(0);
   });
 });
 
@@ -155,9 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#" + elementToRemoveId).remove();
 });
 
-
 document.addEventListener("DOMContentLoaded", () => {
-    window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
   let videoElement = document.getElementById("scroll-video");
   videoElement.muted = true;
 
@@ -251,7 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  
   ScrollTrigger.refresh();
 });
 
