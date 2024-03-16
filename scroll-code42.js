@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let multiplier = 1.034; // Assuming this remains constant
 
   let textFadeInPositions = [
-    { start: 100 * multiplier, end: 1410 },
+    { start: 100 * multiplier, end: 1340 },
     { start: 1950 * multiplier, end: 2650 * multiplier },
     { start: 2970 * multiplier, end: 3465 * multiplier },
     { start: 3590 * multiplier, end: 4600 * multiplier },
