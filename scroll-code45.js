@@ -7,18 +7,40 @@ $(window).on("load", function () {
   }, 10);
 });
 
-$(window).on("beforeunload", function () {
-  // Attempt to scroll to the top; note this may not work due to browser restrictions
-  $(window).scrollTop(0);
+// $(window).on("beforeunload", function () {
+//   // Attempt to scroll to the top; note this may not work due to browser restrictions
+//   $(window).scrollTop(0);
 
-  // Fade in the .fade-out div before the page unloads
-  gsap.to(".fade-out", {
-    duration: 0.32,
-    autoAlpha: 1,
-    ease: "quad.in",
+//   // Fade in the .fade-out div before the page unloads
+//   gsap.to(".fade-out", {
+//     duration: 0.32,
+//     autoAlpha: 1,
+//     ease: "quad.in",
+//   });
+// });
+
+document
+  .getElementById("navigateButton")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default immediate navigation
+    const targetUrl = this.getAttribute("data-href"); // Get the navigation target URL
+
+    // Make .fade-hero visible for animation by changing 'display' from 'none' to 'block'
+    const fadeHeroElement = document.querySelector(".fade-hero");
+    fadeHeroElement.style.display = "block";
+    fadeHeroElement.style.opacity = 0; // Ensure the starting opacity is 0
+
+    // Start fade-in animation with GSAP
+    gsap.to(".fade-hero", {
+      duration: 0.32,
+      autoAlpha: 1, // Animates both opacity to 1 and visibility to visible
+      ease: "quad.in",
+      onComplete: function () {
+        // Navigate to the target URL after the animation completes
+        window.location.href = targetUrl;
+      },
+    });
   });
-
-});
 
 $(document).ready(function () {
   // Check if screen width indicates a mobile device
