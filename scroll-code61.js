@@ -157,201 +157,105 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#" + elementToRemoveId).remove();
 });
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
-    let videoElement = document.getElementById("scroll-video");
-    videoElement.muted = true;
-  
-    let screenWidth = window.innerWidth;
-    let isMobile = screenWidth < 768;
-  
-    let windowHeight = window.innerHeight;
-    let scrollAreaHeight, endValue;
-  
-    if (isMobile) {
-      scrollAreaHeight = windowHeight + 2000;
-      endValue = "+=3000px";
-    } else {
-      scrollAreaHeight = windowHeight * 2 + 2760;
-      endValue = "+=3560px";
-    }
-  
-    let videoContainer = document.querySelector(".scroll-video-container");
-    videoContainer.style.height = `${scrollAreaHeight}px`;
-  
-    let videoTimeline = gsap.timeline();
-  
-    videoTimeline
-      .to(videoElement, { currentTime: 0, duration: 1, ease: "none" }) // Start from 0 to ensure proper reset
-      .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-      .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down
-      .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s
-      .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down
-      .to(videoElement, {
-        currentTime: videoElement.duration,
-        duration: videoElement.duration - 5.501, // Adjust duration based on actual video length
-        ease: "none",
-      }); // Continue to the end
-  
-    ScrollTrigger.create({
-      trigger: ".scroll-video-container",
-      start: "top top",
-      end: endValue,
-      pin: true,
-      pinSpacing: false,
-      scrub: true,
-      animation: videoTimeline,
-    });
-  
-    gsap.set(".text-element", { opacity: 0 });
-  
-    let multiplier = 1.034; // Adjust if necessary for timing
-  
-    let textFadeInPositions = [
-      { start: 100 * multiplier, end: 1240 * multiplier },
-      { start: 1950 * multiplier, end: 2650 * multiplier },
-      { start: 2970 * multiplier, end: 3465 * multiplier },
-      { start: 3590 * multiplier, end: 4600 * multiplier },
-    ];
-  
-    let textElements = gsap.utils.toArray(".text-element");
-    textElements.forEach((element, index) => {
-      let { start, end } = textFadeInPositions[index];
-      gsap.timeline({
+//   window.scrollTo(0, 0);
+  let videoElement = document.getElementById("scroll-video");
+  videoElement.muted = true;
+
+  let screenWidth = window.innerWidth;
+  let isMobile = screenWidth < 768;
+
+  let windowHeight = window.innerHeight;
+  let scrollAreaHeight, endValue;
+
+  if (isMobile) {
+    scrollAreaHeight = windowHeight + 2000;
+    endValue = "+=3000px";
+  } else {
+    scrollAreaHeight = windowHeight * 2 + 2760;
+    endValue = "+=3560px";
+  }
+
+  let videoContainer = document.querySelector(".scroll-video-container");
+  videoContainer.style.height = `${scrollAreaHeight}px`;
+
+  let videoTimeline = gsap.timeline();
+
+  videoTimeline
+    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
+    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
+    // Assuming a brief period of normal playback to transition from the first slow down to the second
+    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
+    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+    .to(videoElement, {
+      currentTime: videoElement.duration,
+      duration: videoElement.duration - 5.6,
+      ease: "none",
+    }); // Continue to the end
+
+  ScrollTrigger.create({
+    trigger: ".scroll-video-container",
+    start: "top top",
+    end: endValue,
+    pin: true,
+    pinSpacing: false,
+    scrub: true,
+    animation: videoTimeline,
+  });
+
+  gsap.set(".text-element", { opacity: 0 });
+
+  let multiplier = 1.034; // Assuming this remains constant
+
+  let textFadeInPositions = [
+    { start: 100 * multiplier, end: 1240 },
+    { start: 1950 * multiplier, end: 2650 * multiplier },
+    { start: 2970 * multiplier, end: 3465 * multiplier },
+    { start: 3590 * multiplier, end: 4600 * multiplier },
+  ];
+
+  let textElements = gsap.utils.toArray(".text-element");
+  textElements.forEach((element, index) => {
+    let { start, end } = textFadeInPositions[index];
+    gsap
+      .timeline({
         scrollTrigger: {
           trigger: element,
-          start: () => `${start}px bottom`,
-          end: () => `${end}px bottom`,
+          start: () => `${element.offsetTop + start}px bottom`,
+          end: () => `${element.offsetTop + end}px bottom`,
           scrub: true,
         },
       })
       .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
-      .to(element, { opacity: 0, duration: 0.27 }, "+=0.5");
-    });
-  
-    let circleJumpPositions = [100, 2400, 2650, 3000];
-    let circleElements = document.querySelectorAll(".scroll-circle");
-    circleElements.forEach((circle, index) => {
-      circle.addEventListener("click", () => {
-        window.scrollTo({
-          top: circleJumpPositions[index] - windowHeight / 2, // Center circle in view
-          behavior: "smooth",
-        });
-      });
-    });
-  
-    window.addEventListener("scroll", () => {
-      let scrollPosition = window.scrollY;
-      circleElements.forEach((circle, index) => {
-        if (scrollPosition >= circleJumpPositions[index] - windowHeight / 2) {
-          circle.classList.add("active");
-        } else {
-          circle.classList.remove("active");
-        }
-      });
-    });
-  
-    ScrollTrigger.refresh();
+      .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
   });
-  
-  
 
-// document.addEventListener("DOMContentLoaded", () => {
-//   window.scrollTo(0, 0);
-//   let videoElement = document.getElementById("scroll-video");
-//   videoElement.muted = true;
+  let circleJumpPositions = [100, 2400, 2650, 3000];
+  let circleElements = document.querySelectorAll(".scroll-circle");
+  circleElements.forEach((circle, index) => {
+    circle.addEventListener("click", () => {
+      window.scrollTo({
+        top: circleJumpPositions[index] - 250,
+        behavior: "smooth",
+      });
+    });
+  });
 
-//   let screenWidth = window.innerWidth;
-//   let isMobile = screenWidth < 768;
+  window.addEventListener("scroll", () => {
+    let scrollPosition = window.scrollY + 250;
+    circleElements.forEach((circle, index) => {
+      if (scrollPosition >= circleJumpPositions[index]) {
+        circle.classList.add("active");
+      } else {
+        circle.classList.remove("active");
+      }
+    });
+  });
 
-//   let windowHeight = window.innerHeight;
-//   let scrollAreaHeight, endValue;
-
-//   if (isMobile) {
-//     scrollAreaHeight = windowHeight + 2000;
-//     endValue = "+=3000px";
-//   } else {
-//     scrollAreaHeight = windowHeight * 2 + 2760;
-//     endValue = "+=3560px";
-//   }
-
-//   let videoContainer = document.querySelector(".scroll-video-container");
-//   videoContainer.style.height = `${scrollAreaHeight}px`;
-
-//   let videoTimeline = gsap.timeline();
-
-//   videoTimeline
-//     .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-//     .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
-//     // Assuming a brief period of normal playback to transition from the first slow down to the second
-//     .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
-//     .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
-//     .to(videoElement, {
-//       currentTime: videoElement.duration,
-//       duration: videoElement.duration - 5.6,
-//       ease: "none",
-//     }); // Continue to the end
-
-//   ScrollTrigger.create({
-//     trigger: ".scroll-video-container",
-//     start: "top top",
-//     end: endValue,
-//     pin: true,
-//     pinSpacing: false,
-//     scrub: true,
-//     animation: videoTimeline,
-//   });
-
-//   gsap.set(".text-element", { opacity: 0 });
-
-//   let multiplier = 1.034; // Assuming this remains constant
-
-//   let textFadeInPositions = [
-//     { start: 100 * multiplier, end: 1240 },
-//     { start: 1950 * multiplier, end: 2650 * multiplier },
-//     { start: 2970 * multiplier, end: 3465 * multiplier },
-//     { start: 3590 * multiplier, end: 4600 * multiplier },
-//   ];
-
-//   let textElements = gsap.utils.toArray(".text-element");
-//   textElements.forEach((element, index) => {
-//     let { start, end } = textFadeInPositions[index];
-//     gsap
-//       .timeline({
-//         scrollTrigger: {
-//           trigger: element,
-//           start: () => `${element.offsetTop + start}px bottom`,
-//           end: () => `${element.offsetTop + end}px bottom`,
-//           scrub: true,
-//         },
-//       })
-//       .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
-//       .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
-//   });
-
-//   let circleJumpPositions = [100, 2400, 2650, 3000];
-//   let circleElements = document.querySelectorAll(".scroll-circle");
-//   circleElements.forEach((circle, index) => {
-//     circle.addEventListener("click", () => {
-//       window.scrollTo({
-//         top: circleJumpPositions[index] - 250,
-//         behavior: "smooth",
-//       });
-//     });
-//   });
-
-//   window.addEventListener("scroll", () => {
-//     let scrollPosition = window.scrollY + 250;
-//     circleElements.forEach((circle, index) => {
-//       if (scrollPosition >= circleJumpPositions[index]) {
-//         circle.classList.add("active");
-//       } else {
-//         circle.classList.remove("active");
-//       }
-//     });
-//   });
-
-//   ScrollTrigger.refresh();
-// });
+  ScrollTrigger.refresh();
+});
 
 function fadeElement(element, action) {
   gsap.to(element, { duration: 0.5, autoAlpha: action === "in" ? 1 : 0 });
