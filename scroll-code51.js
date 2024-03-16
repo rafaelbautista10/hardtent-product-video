@@ -7,17 +7,10 @@ $(window).on("load", function () {
 
 gsap.registerPlugin(ScrollTrigger);
 
-// $(window).on("beforeunload", function () {
-//   // Attempt to scroll to the top; note this may not work due to browser restrictions
-//   $(window).scrollTop(0);
-
-//   // Fade in the .fade-out div before the page unloads
-//   gsap.to(".fade-out", {
-//     duration: 0.32,
-//     autoAlpha: 1,
-//     ease: "quad.in",
-//   });
-// });
+$(window).on("beforeunload", function () {
+  // Attempt to scroll to the top; note this may not work due to browser restrictions
+  $(window).scrollTop(0);
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   // Find the link by its class
