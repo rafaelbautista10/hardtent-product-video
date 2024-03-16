@@ -182,16 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let videoTimeline = gsap.timeline();
 
   videoTimeline
-    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
-    // Assuming a brief period of normal playback to transition from the first slow down to the second
-    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
-    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" })
+    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" })
+    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" })
+    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" })
     .to(videoElement, {
       currentTime: videoElement.duration,
       duration: videoElement.duration - 5.6,
       ease: "none",
-    }); // Continue to the end
+    });
 
   ScrollTrigger.create({
     trigger: ".scroll-video-container",
@@ -205,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   gsap.set(".text-element", { opacity: 0 });
 
-  let multiplier = 1.034; // Assuming this remains constant
+  let multiplier = 1.034;
 
   let textFadeInPositions = [
     { start: 100 * multiplier, end: 1240 },
@@ -224,10 +223,12 @@ document.addEventListener("DOMContentLoaded", () => {
           start: () => `${element.offsetTop + start}px bottom`,
           end: () => `${element.offsetTop + end}px bottom`,
           scrub: true,
+          onEnterBack: () => gsap.to(element, { opacity: 0 }), // Hide when scrolling back up
+          onLeaveBack: () => gsap.to(element, { opacity: 0 }), // Hide when leaving back up
         },
       })
       .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
-      .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
+      .to(element, { opacity: 0, duration: 0.27 }, "+=0.5");
   });
 
   let circleJumpPositions = [100, 2400, 2650, 3000];
@@ -256,6 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // document.addEventListener("DOMContentLoaded", () => {
+//   window.scrollTo(0, 0);
 //   let videoElement = document.getElementById("scroll-video");
 //   videoElement.muted = true;
 
@@ -266,22 +268,30 @@ document.addEventListener("DOMContentLoaded", () => {
 //   let scrollAreaHeight, endValue;
 
 //   if (isMobile) {
-//     // Adjust these values for mobile
-//     scrollAreaHeight = windowHeight + 2000; // Example adjustment
+//     scrollAreaHeight = windowHeight + 2000;
 //     endValue = "+=3000px";
 //   } else {
-//     // Desktop values
-//     scrollAreaHeight = windowHeight + 2760 + windowHeight;
+//     scrollAreaHeight = windowHeight * 2 + 2760;
 //     endValue = "+=3560px";
 //   }
 
 //   let videoContainer = document.querySelector(".scroll-video-container");
 //   videoContainer.style.height = `${scrollAreaHeight}px`;
 
-//   let videoTimeline = gsap
-//     .timeline()
-//     .to(videoElement, { currentTime: 6.2, duration: 6.2, ease: "none" })
-//     .to({}, { duration: 1.3 });
+//   let videoTimeline = gsap.timeline();
+
+//   videoTimeline
+//     .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
+//     .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
+//     // Assuming a brief period of normal playback to transition from the first slow down to the second
+//     .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
+//     .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+//     .to(videoElement, {
+//       currentTime: videoElement.duration,
+//       duration: videoElement.duration - 5.6,
+//       ease: "none",
+//     }); // Continue to the end
+
 //   ScrollTrigger.create({
 //     trigger: ".scroll-video-container",
 //     start: "top top",
@@ -294,34 +304,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //   gsap.set(".text-element", { opacity: 0 });
 
-//   let multiplier = 1.02; // You can adjust this value as needed
+//   let multiplier = 1.034; // Assuming this remains constant
 
 //   let textFadeInPositions = [
-//     { start: 100 * multiplier, end: 1450 },
-//     { start: 2280 * multiplier, end: 2590 * multiplier },
-//     { start: 2660 * multiplier, end: 2910 * multiplier },
-//     { start: 2940 * multiplier, end: 3500 * multiplier },
+//     { start: 100 * multiplier, end: 1240 },
+//     { start: 1950 * multiplier, end: 2650 * multiplier },
+//     { start: 2970 * multiplier, end: 3465 * multiplier },
+//     { start: 3590 * multiplier, end: 4600 * multiplier },
 //   ];
 
 //   let textElements = gsap.utils.toArray(".text-element");
 //   textElements.forEach((element, index) => {
-//     let { start: fadeInStart, end: fadeInEnd } = textFadeInPositions[index];
-//     let textTimeline = gsap.timeline({
-//       scrollTrigger: {
-//         trigger: element,
-//         start: () => element.offsetTop + fadeInStart + "px bottom",
-//         end: () => element.offsetTop + fadeInEnd + "px bottom",
-//         scrub: true,
-//         markers: false,
-//       },
-//     });
-//     if (index === textElements.length - 1) {
-//       textTimeline.to(element, { opacity: 1, duration: 0.27 });
-//     } else {
-//       textTimeline
-//         .to(element, { opacity: 1, duration: 0.27 })
-//         .to(element, { opacity: 0, duration: 0.27 });
-//     }
+//     let { start, end } = textFadeInPositions[index];
+//     gsap
+//       .timeline({
+//         scrollTrigger: {
+//           trigger: element,
+//           start: () => `${element.offsetTop + start}px bottom`,
+//           end: () => `${element.offsetTop + end}px bottom`,
+//           scrub: true,
+//         },
+//       })
+//       .fromTo(element, { opacity: 0 }, { opacity: 1, duration: 0.27 })
+//       .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
 //   });
 
 //   let circleJumpPositions = [100, 2400, 2650, 3000];
@@ -345,6 +350,8 @@ document.addEventListener("DOMContentLoaded", () => {
 //       }
 //     });
 //   });
+
+//   ScrollTrigger.refresh();
 // });
 
 function fadeElement(element, action) {
