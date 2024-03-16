@@ -11,36 +11,36 @@ gsap.registerPlugin(ScrollTrigger);
 //     $(window).scrollTop(0);
 // });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   // Find the link by its class
-//   const link = document.querySelector(".navbar22_link");
+document.addEventListener("DOMContentLoaded", function () {
+  // Find the link by its class
+  const link = document.querySelector(".navbar22_link");
 
-//   link.addEventListener("click", function (event) {
-//     event.preventDefault(); // Prevent the default link behavior
-//     const targetUrl = this.getAttribute("href"); // Get the href value
+  link.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default link behavior
+    const targetUrl = this.getAttribute("href"); // Get the href value
 
-//     // Make sure the .fade-hero element is ready for animation
-//     const fadeHeroElement = document.querySelector(".fade-hero");
-//     fadeHeroElement.style.display = "block";
-//     fadeHeroElement.style.opacity = 0; // Ensure it starts from 0 opacity
+    // Make sure the .fade-hero element is ready for animation
+    const fadeHeroElement = document.querySelector(".fade-hero");
+    fadeHeroElement.style.display = "block";
+    fadeHeroElement.style.opacity = 0; // Ensure it starts from 0 opacity
 
-//     // Start the fade-in animation
-//     gsap.to(".fade-hero", {
-//       duration: 0.32,
-//       autoAlpha: 1, // GSAP's autoAlpha handles both CSS opacity and visibility
-//       ease: "quad.in",
-//       onComplete: function () {
-//         // Ensure scroll to top happens here if you want it just after animation
-//         $(window).scrollTop(0);
+    // Start the fade-in animation
+    gsap.to(".fade-hero", {
+      duration: 0.32,
+      autoAlpha: 1, // GSAP's autoAlpha handles both CSS opacity and visibility
+      ease: "quad.in",
+      onComplete: function () {
+        // Ensure scroll to top happens here if you want it just after animation
+        $(window).scrollTop(0);
 
-//         // Delay the navigation to the target URL after the animation completes
-//         setTimeout(function () {
-//           window.location.href = targetUrl;
-//         }, 1000); // Corrected delay for navigation
-//       },
-//     });
-//   });
-// });
+        // Delay the navigation to the target URL after the animation completes
+        setTimeout(function () {
+          window.location.href = targetUrl;
+        }, 2200); // Corrected delay for navigation
+      },
+    });
+  });
+});
 
 $(document).ready(function () {
   // Check if screen width indicates a mobile device
@@ -253,39 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   ScrollTrigger.refresh();
-
-  // Adjust initial animation state based on the section's position
-  const adjustInitialAnimationStateForSection = () => {
-    const section = document.querySelector(".section_scroll-animation");
-    if (section) {
-      const sectionTopPosition = section.offsetTop;
-      const initialScrollY = window.scrollY;
-
-      if (initialScrollY > sectionTopPosition) {
-        // The page was loaded with the viewport below the section,
-        // adjust your animations here.
-
-        // Example: adjust text elements visibility or animation states
-        let visibleElementIndex = textFadeInPositions.findIndex(
-          ({ start, end }, index) => {
-            const elementTop = textElements[index].offsetTop;
-            return (
-              initialScrollY >= elementTop + start &&
-              initialScrollY <= elementTop + end
-            );
-          }
-        );
-
-        if (visibleElementIndex !== -1) {
-          // If there's a specific element that should be visible, adjust its opacity.
-          gsap.set(textElements[visibleElementIndex], { opacity: 1 });
-          // Similarly, adjust any other relevant animations based on the scroll position.
-        }
-      }
-    }
-  };
-
-  adjustInitialAnimationStateForSection();
 });
 
 function fadeElement(element, action) {
