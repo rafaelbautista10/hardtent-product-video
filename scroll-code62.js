@@ -157,10 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#" + elementToRemoveId).remove();
 });
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
-//   window.scrollTo(0, 0);
+  //   window.scrollTo(0, 0);
   let videoElement = document.getElementById("scroll-video");
   videoElement.muted = true;
 
@@ -255,6 +253,39 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   ScrollTrigger.refresh();
+
+  // Adjust initial animation state based on the section's position
+  const adjustInitialAnimationStateForSection = () => {
+    const section = document.querySelector(".section_scroll-animation");
+    if (section) {
+      const sectionTopPosition = section.offsetTop;
+      const initialScrollY = window.scrollY;
+
+      if (initialScrollY > sectionTopPosition) {
+        // The page was loaded with the viewport below the section,
+        // adjust your animations here.
+
+        // Example: adjust text elements visibility or animation states
+        let visibleElementIndex = textFadeInPositions.findIndex(
+          ({ start, end }, index) => {
+            const elementTop = textElements[index].offsetTop;
+            return (
+              initialScrollY >= elementTop + start &&
+              initialScrollY <= elementTop + end
+            );
+          }
+        );
+
+        if (visibleElementIndex !== -1) {
+          // If there's a specific element that should be visible, adjust its opacity.
+          gsap.set(textElements[visibleElementIndex], { opacity: 1 });
+          // Similarly, adjust any other relevant animations based on the scroll position.
+        }
+      }
+    }
+  };
+
+  adjustInitialAnimationStateForSection();
 });
 
 function fadeElement(element, action) {
