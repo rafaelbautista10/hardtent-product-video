@@ -1,3 +1,5 @@
+gsap.registerPlugin(ScrollTrigger);
+
 $(window).on("load", function () {
   // Delay the scroll to ensure all content has loaded
   setTimeout(function () {
@@ -25,55 +27,35 @@ $(document).ready(function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   const videoElementId = $(window).width() >= 768 ? "myVideo" : "mobile-hero";
-  // Use document.getElementById to get the actual DOM element
   const video = document.getElementById(videoElementId);
 
-  // Remove the element that is not being used
-  const elementToRemoveId =
-    videoElementId === "myVideo" ? "mobile-hero" : "myVideo";
-  $("#" + elementToRemoveId).remove();
+  function setupVideoInteractions() {
+    const toggleClose = document.querySelector(".toggle-close");
+    const toggleOpen = document.querySelector(".toggle-open");
+    const toggleCircles = document.querySelectorAll(".toggle-circle");
+    let reverseIntervalId = null;
 
-  //const video = document.getElementById("myVideo");
-  const toggleClose = document.querySelector(".toggle-close");
-  const toggleOpen = document.querySelector(".toggle-open");
-  const toggleCircles = document.querySelectorAll(".toggle-circle");
-  let reverseIntervalId = null;
+    function reverseVideo() {
+      const isMobile = window.innerWidth < 768;
+      const reverseInterval = isMobile ? 30 : 50;
+      const stepBack = isMobile ? 0.04 : 0.02;
 
-  function reverseVideo() {
-    // Use window width to determine the values for mobile vs desktop
-    const isMobile = window.innerWidth < 768;
-    const reverseInterval = isMobile ? 30 : 50; // 30 for mobile, 50 for desktop
-    const stepBack = isMobile ? 0.04 : 0.02; // 0.05 for mobile, 0.02 for desktop
-
-    if (video.playbackRate !== 1) {
-      video.playbackRate = 1;
-    }
-
-    reverseIntervalId = setInterval(function () {
-      if (video.currentTime <= 0) {
-        clearInterval(reverseIntervalId);
-        video.pause();
-        video.currentTime = 0;
-      } else {
-        video.currentTime -= stepBack;
+      if (video.playbackRate !== 1) {
+        video.playbackRate = 1;
       }
-    }, reverseInterval);
-  }
 
-  toggleOpen.addEventListener("click", function () {
-    if (reverseIntervalId) {
-      clearInterval(reverseIntervalId);
+      reverseIntervalId = setInterval(function () {
+        if (video.currentTime <= 0) {
+          clearInterval(reverseIntervalId);
+          video.pause();
+          video.currentTime = 0;
+        } else {
+          video.currentTime -= stepBack;
+        }
+      }, reverseInterval);
     }
-    video.play();
 
-    toggleOpen.classList.add("active");
-    toggleClose.classList.remove("active");
-    toggleCircles[0].classList.remove("active");
-    toggleCircles[1].classList.add("active");
-  });
-
-  toggleCircles[1].addEventListener("click", function () {
-    if (!this.classList.contains("active")) {
+    toggleOpen.addEventListener("click", function () {
       if (reverseIntervalId) {
         clearInterval(reverseIntervalId);
       }
@@ -82,24 +64,24 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleOpen.classList.add("active");
       toggleClose.classList.remove("active");
       toggleCircles[0].classList.remove("active");
-      this.classList.add("active");
-    }
-  });
+      toggleCircles[1].classList.add("active");
+    });
 
-  toggleClose.addEventListener("click", function () {
-    if (reverseIntervalId) {
-      clearInterval(reverseIntervalId);
-    }
-    reverseVideo();
+    toggleCircles[1].addEventListener("click", function () {
+      if (!this.classList.contains("active")) {
+        if (reverseIntervalId) {
+          clearInterval(reverseIntervalId);
+        }
+        video.play();
 
-    toggleClose.classList.add("active");
-    toggleOpen.classList.remove("active");
-    toggleCircles[0].classList.add("active");
-    toggleCircles[1].classList.remove("active");
-  });
+        toggleOpen.classList.add("active");
+        toggleClose.classList.remove("active");
+        toggleCircles[0].classList.remove("active");
+        this.classList.add("active");
+      }
+    });
 
-  toggleCircles[0].addEventListener("click", function () {
-    if (!this.classList.contains("active")) {
+    toggleClose.addEventListener("click", function () {
       if (reverseIntervalId) {
         clearInterval(reverseIntervalId);
       }
@@ -107,13 +89,129 @@ document.addEventListener("DOMContentLoaded", function () {
 
       toggleClose.classList.add("active");
       toggleOpen.classList.remove("active");
-      this.classList.add("active");
+      toggleCircles[0].classList.add("active");
       toggleCircles[1].classList.remove("active");
-    }
-  });
+    });
+
+    toggleCircles[0].addEventListener("click", function () {
+      if (!this.classList.contains("active")) {
+        if (reverseIntervalId) {
+          clearInterval(reverseIntervalId);
+        }
+        reverseVideo();
+
+        toggleClose.classList.add("active");
+        toggleOpen.classList.remove("active");
+        this.classList.add("active");
+        toggleCircles[1].classList.remove("active");
+      }
+    });
+  }
+
+  if (video.readyState >= 2) {
+    setupVideoInteractions();
+  } else {
+    video.addEventListener("loadedmetadata", setupVideoInteractions, {
+      once: true,
+    });
+  }
+
+  // Remove the element that is not being used
+  const elementToRemoveId =
+    videoElementId === "myVideo" ? "mobile-hero" : "myVideo";
+  $("#" + elementToRemoveId).remove();
 });
 
-gsap.registerPlugin(ScrollTrigger);
+// document.addEventListener("DOMContentLoaded", function () {
+//   const videoElementId = $(window).width() >= 768 ? "myVideo" : "mobile-hero";
+//   // Use document.getElementById to get the actual DOM element
+//   const video = document.getElementById(videoElementId);
+
+//   // Remove the element that is not being used
+//   const elementToRemoveId =
+//     videoElementId === "myVideo" ? "mobile-hero" : "myVideo";
+//   $("#" + elementToRemoveId).remove();
+
+//   //const video = document.getElementById("myVideo");
+//   const toggleClose = document.querySelector(".toggle-close");
+//   const toggleOpen = document.querySelector(".toggle-open");
+//   const toggleCircles = document.querySelectorAll(".toggle-circle");
+//   let reverseIntervalId = null;
+
+//   function reverseVideo() {
+//     // Use window width to determine the values for mobile vs desktop
+//     const isMobile = window.innerWidth < 768;
+//     const reverseInterval = isMobile ? 30 : 50; // 30 for mobile, 50 for desktop
+//     const stepBack = isMobile ? 0.04 : 0.02; // 0.05 for mobile, 0.02 for desktop
+
+//     if (video.playbackRate !== 1) {
+//       video.playbackRate = 1;
+//     }
+
+//     reverseIntervalId = setInterval(function () {
+//       if (video.currentTime <= 0) {
+//         clearInterval(reverseIntervalId);
+//         video.pause();
+//         video.currentTime = 0;
+//       } else {
+//         video.currentTime -= stepBack;
+//       }
+//     }, reverseInterval);
+//   }
+
+//   toggleOpen.addEventListener("click", function () {
+//     if (reverseIntervalId) {
+//       clearInterval(reverseIntervalId);
+//     }
+//     video.play();
+
+//     toggleOpen.classList.add("active");
+//     toggleClose.classList.remove("active");
+//     toggleCircles[0].classList.remove("active");
+//     toggleCircles[1].classList.add("active");
+//   });
+
+//   toggleCircles[1].addEventListener("click", function () {
+//     if (!this.classList.contains("active")) {
+//       if (reverseIntervalId) {
+//         clearInterval(reverseIntervalId);
+//       }
+//       video.play();
+
+//       toggleOpen.classList.add("active");
+//       toggleClose.classList.remove("active");
+//       toggleCircles[0].classList.remove("active");
+//       this.classList.add("active");
+//     }
+//   });
+
+//   toggleClose.addEventListener("click", function () {
+//     if (reverseIntervalId) {
+//       clearInterval(reverseIntervalId);
+//     }
+//     reverseVideo();
+
+//     toggleClose.classList.add("active");
+//     toggleOpen.classList.remove("active");
+//     toggleCircles[0].classList.add("active");
+//     toggleCircles[1].classList.remove("active");
+//   });
+
+//   toggleCircles[0].addEventListener("click", function () {
+//     if (!this.classList.contains("active")) {
+//       if (reverseIntervalId) {
+//         clearInterval(reverseIntervalId);
+//       }
+//       reverseVideo();
+
+//       toggleClose.classList.add("active");
+//       toggleOpen.classList.remove("active");
+//       this.classList.add("active");
+//       toggleCircles[1].classList.remove("active");
+//     }
+//   });
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
   let videoElement = document.getElementById("scroll-video");
   videoElement.muted = true;
