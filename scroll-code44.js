@@ -18,9 +18,6 @@ $(window).on("beforeunload", function () {
     ease: "quad.in",
   });
 
-  // Delay the unload to allow the fade-in animation to be seen
-  // Note: Delaying the unload process may not be consistent across all browsers
-  return "Are you sure you want to leave?";
 });
 
 $(document).ready(function () {
