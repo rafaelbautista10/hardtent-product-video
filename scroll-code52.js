@@ -31,8 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
       autoAlpha: 1, // GSAP's autoAlpha handles both CSS opacity and visibility
       ease: "quad.in",
       onComplete: function () {
-        // Navigate to the target URL after the animation completes
-        window.location.href = targetUrl;
+        // Delay the navigation to the target URL after the animation completes
+        setTimeout(function () {
+          window.location.href = targetUrl;
+        }, 1000); // 1000 milliseconds delay before navigating
       },
     });
   });
