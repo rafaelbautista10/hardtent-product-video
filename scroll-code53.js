@@ -1,16 +1,15 @@
-$(window).on("load", function () {
-  // Delay the scroll to ensure all content has loaded
-  setTimeout(function () {
-    $(window).scrollTop(0);
-  }, 10);
-});
+// $(window).on("load", function () {
+//   // Delay the scroll to ensure all content has loaded
+//   setTimeout(function () {
+//     $(window).scrollTop(0);
+//   }, 10);
+// });
 
 gsap.registerPlugin(ScrollTrigger);
 
-$(window).on("beforeunload", function () {
-  // Attempt to scroll to the top; note this may not work due to browser restrictions
-  $(window).scrollTop(0);
-});
+// $(window).on("beforeunload", function () {
+//     $(window).scrollTop(0);
+// });
 
 document.addEventListener("DOMContentLoaded", function () {
   // Find the link by its class
@@ -37,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000); // 1000 milliseconds delay before navigating
       },
     });
+    $(window).scrollTop(0);
   });
 });
 
@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function reverseVideo() {
       const isMobile = window.innerWidth < 768;
-      const reverseInterval = isMobile ? 30 : 50;
-      const stepBack = isMobile ? 0.04 : 0.02;
+      const reverseInterval = isMobile ? 50 : 50;
+      const stepBack = isMobile ? 0.02 : 0.02;
 
       if (video.playbackRate !== 1) {
         video.playbackRate = 1;
@@ -338,6 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+  ScrollTrigger.refresh();
 });
 
 // document.addEventListener("DOMContentLoaded", () => {
