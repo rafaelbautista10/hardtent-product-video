@@ -1,11 +1,11 @@
-gsap.registerPlugin(ScrollTrigger);
-
 $(window).on("load", function () {
   // Delay the scroll to ensure all content has loaded
   setTimeout(function () {
     $(window).scrollTop(0);
   }, 10);
 });
+
+gsap.registerPlugin(ScrollTrigger);
 
 // $(window).on("beforeunload", function () {
 //   // Attempt to scroll to the top; note this may not work due to browser restrictions
@@ -19,21 +19,23 @@ $(window).on("load", function () {
 //   });
 // });
 
-document
-  .getElementById("navigateButton")
-  .addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent the default immediate navigation
-    const targetUrl = this.getAttribute("data-href"); // Get the navigation target URL
+document.addEventListener("DOMContentLoaded", function () {
+  // Find the link by its class
+  const link = document.querySelector(".navbar22_link");
 
-    // Make .fade-hero visible for animation by changing 'display' from 'none' to 'block'
+  link.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default link behavior
+    const targetUrl = this.getAttribute("href"); // Get the href value to know where to navigate after animation
+
+    // Make sure the .fade-hero element is ready for animation
     const fadeHeroElement = document.querySelector(".fade-hero");
     fadeHeroElement.style.display = "block";
-    fadeHeroElement.style.opacity = 0; // Ensure the starting opacity is 0
+    fadeHeroElement.style.opacity = 0; // Ensure it starts from 0 opacity
 
-    // Start fade-in animation with GSAP
+    // Start the fade-in animation
     gsap.to(".fade-hero", {
       duration: 0.32,
-      autoAlpha: 1, // Animates both opacity to 1 and visibility to visible
+      autoAlpha: 1, // GSAP's autoAlpha handles both CSS opacity and visibility
       ease: "quad.in",
       onComplete: function () {
         // Navigate to the target URL after the animation completes
@@ -41,6 +43,7 @@ document
       },
     });
   });
+});
 
 $(document).ready(function () {
   // Check if screen width indicates a mobile device
