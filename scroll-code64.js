@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Delay the navigation to the target URL after the animation completes
         setTimeout(function () {
           window.location.href = targetUrl;
-        }, 2200); // Corrected delay for navigation
+        }, 200); // Corrected delay for navigation
       },
     });
   });
@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function reverseVideo() {
       const isMobile = window.innerWidth < 768;
-      const reverseInterval = isMobile ? 50 : 50;
-      const stepBack = isMobile ? 0.02 : 0.02;
+      const reverseInterval = isMobile ? 50 : 70;
+      const stepBack = isMobile ? 0.02 : 0.08;
 
       if (video.playbackRate !== 1) {
         video.playbackRate = 1;
