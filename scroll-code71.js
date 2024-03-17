@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function reverseVideo() {
       const isMobile = window.innerWidth < 768;
       const reverseInterval = isMobile ? 50 : 70;
-      const stepBack = isMobile ? 0.02 : 0.75;
+      const stepBack = isMobile ? 0.02 : 0.07;
 
       if (video.playbackRate !== 1) {
         video.playbackRate = 1;
