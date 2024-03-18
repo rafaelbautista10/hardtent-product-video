@@ -470,7 +470,6 @@ $(document).ready(function () {
         zeroPricingEnabled ? 0 : modelPrice
       }'>`,
       `<input type='hidden' class='dynamic-input' name='quantity' value='1'>`,
-       `<input type='hidden' class='dynamic-input' name='quantity' value='1' >``<input type='hidden' class='dynamic-input' name='sub_frequency' value='1m'>`,
 
     );
 
@@ -482,6 +481,7 @@ $(document).ready(function () {
         `<input type='hidden' class='dynamic-input' name='${idx}:price' value='${
           zeroPricingEnabled ? 0 : product.price
         }'>`,
+        `<input type='hidden' class='dynamic-input' name='sub_frequency' value='1m'>`,
         `<input type='hidden' class='dynamic-input' name='${idx}:quantity' value='${product.quantity}'>`,
         product.imageUrl
           ? `<input type='hidden' class='dynamic-input' name='${idx}:image' value='${product.imageUrl}'>`
