@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
   });
 
-  let circleJumpPositions = [100, 2400, 2650, 3000];
+   let circleJumpPositions = [100, 1950, 2970, 3590];
   let circleElements = document.querySelectorAll(".scroll-circle");
   circleElements.forEach((circle, index) => {
     circle.addEventListener("click", () => {
