@@ -470,7 +470,7 @@ $(document).ready(function () {
         zeroPricingEnabled ? 0 : modelPrice
       }'>`,
       `<input type='hidden' class='dynamic-input' name='quantity' value='1'>`,
-        <input type='hidden' class='dynamic-input' name='quantity' value='1' >``<input type='hidden' class='dynamic-input' name='sub_frequency' value='1m'>`,
+       `<input type='hidden' class='dynamic-input' name='quantity' value='1' >``<input type='hidden' class='dynamic-input' name='sub_frequency' value='1m'>`,
 
     );
 
