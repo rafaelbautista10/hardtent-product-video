@@ -181,17 +181,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let videoTimeline = gsap.timeline();
 
+  // Define a function to safely set currentTime if it's finite
+  function safeSetCurrentTime(target, props) {
+    if (isFinite(props.currentTime)) {
+      gsap.to(target, props);
+    } else {
+      console.error(
+        "Attempted to set non-finite currentTime:",
+        props.currentTime
+      );
+      // Optionally, reset to a safe value like 0 or a known safe currentTime
+      target.currentTime = 0; // Reset to start if invalid
+    }
+  }
+
   videoTimeline
-    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
-    // Assuming a brief period of normal playback to transition from the first slow down to the second
-    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
-    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
-    .to(videoElement, {
-      currentTime: videoElement.duration,
-      duration: videoElement.duration - 5.6,
-      ease: "none",
-    }); // Continue to the end
+    .call(() =>
+      safeSetCurrentTime(videoElement, {
+        currentTime: 4.2,
+        duration: 4.2,
+        ease: "none",
+      })
+    )
+    .call(() =>
+      safeSetCurrentTime(videoElement, {
+        currentTime: 4.3,
+        duration: 1.7,
+        ease: "none",
+      })
+    )
+    .call(() =>
+      safeSetCurrentTime(videoElement, {
+        currentTime: 5.5,
+        duration: 1.2,
+        ease: "none",
+      })
+    )
+    .call(() =>
+      safeSetCurrentTime(videoElement, {
+        currentTime: 5.501,
+        duration: 1,
+        ease: "none",
+      })
+    )
+    .call(() =>
+      safeSetCurrentTime(videoElement, {
+        currentTime: videoElement.duration,
+        duration: videoElement.duration - 5.6,
+        ease: "none",
+      })
+    );
+  //   videoTimeline
+  //     .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
+  //     .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
+  //     // Assuming a brief period of normal playback to transition from the first slow down to the second
+  //     .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
+  //     .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+  //     .to(videoElement, {
+  //       currentTime: videoElement.duration,
+  //       duration: videoElement.duration - 5.6,
+  //       ease: "none",
+  //     });
 
   ScrollTrigger.create({
     trigger: ".scroll-video-container",
@@ -230,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .to(element, { opacity: 0, duration: 0.27 }, "+=0.5"); // Hide again outside the specified range
   });
 
-   let circleJumpPositions = [100, 1950, 2970, 3590];
+  let circleJumpPositions = [100, 1950, 2970, 3590];
   let circleElements = document.querySelectorAll(".scroll-circle");
   circleElements.forEach((circle, index) => {
     circle.addEventListener("click", () => {
@@ -591,4 +641,58 @@ $(document).ready(function () {
       },
     },
   });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const video = document.getElementById("scroll-video"); // Adjust with your video ID
+  let currentSegment = 0; // Current video segment
+  const segments = [0, 4.2, 4.3, 5.5, video.duration]; // Define the start time of each segment
+
+  // Function to jump to a specific segment
+  function jumpToSegment(index) {
+    currentSegment = index;
+    video.currentTime = segments[currentSegment];
+    video.pause(); // Optional: Pause on jump, remove if you want autoplay
+  }
+
+  // Navigation circles: adjust to match your elements
+  const circles = document.querySelectorAll(".scroll-circle");
+  circles.forEach((circle, index) => {
+    circle.addEventListener("click", () => {
+      jumpToSegment(index);
+      updateCircleActiveState(index);
+    });
+  });
+
+  // Update which circle is active
+  function updateCircleActiveState(activeIndex) {
+    circles.forEach((circle, idx) => {
+      if (idx === activeIndex) {
+        circle.classList.add("active");
+      } else {
+        circle.classList.remove("active");
+      }
+    });
+  }
+
+  // Single scroll to advance to next/previous segment
+  window.addEventListener("wheel", (event) => {
+    if (event.deltaY > 0) {
+      // Scrolling down
+      if (currentSegment < segments.length - 1) {
+        currentSegment++;
+        jumpToSegment(currentSegment);
+        updateCircleActiveState(currentSegment);
+      }
+    } else if (event.deltaY < 0) {
+      // Scrolling up
+      if (currentSegment > 0) {
+        currentSegment--;
+        jumpToSegment(currentSegment);
+        updateCircleActiveState(currentSegment);
+      }
+    }
+  });
+
+  // Optionally, add IntersectionObserver or ScrollTrigger logic here for more refined control
 });
