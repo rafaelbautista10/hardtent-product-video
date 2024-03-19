@@ -158,69 +158,50 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Initial setup
-  console.clear();
-  const video = document.querySelector(".scroll-video");
-  let src = video.currentSrc || video.src;
-  console.log(video, src);
-  video.muted = true; // Ensure video is muted for autoplay policies
+  //   window.scrollTo(0, 0);
+  let videoElement = document.getElementById("scroll-video");
+  videoElement.muted = true;
 
-  // Function to handle one-time events
-  function once(el, event, fn, opts) {
-      var onceFn = function(e) {
-          el.removeEventListener(event, onceFn);
-          fn.apply(this, arguments);
-      };
-      el.addEventListener(event, onceFn, opts);
-      return onceFn;
+  let screenWidth = window.innerWidth;
+  let isMobile = screenWidth < 768;
+
+  let windowHeight = window.innerHeight;
+  let scrollAreaHeight, endValue;
+
+  if (isMobile) {
+    scrollAreaHeight = windowHeight + 2000;
+    endValue = "+=3000px";
+  } else {
+    scrollAreaHeight = windowHeight * 2 + 2760;
+    endValue = "+=3560px";
   }
 
-  // Activate video on iOS devices
-  once(document.documentElement, "touchstart", () => {
-      video.play();
-      video.pause();
-  });
-
-  // Determine if the device is mobile based on screen width
-  let isMobile = window.innerWidth < 768;
-  let scrollAreaHeight = isMobile ? window.innerHeight + 2000 : window.innerHeight * 2 + 2760;
-  let endValue = isMobile ? "+=3000px" : "+=3560px";
-
-  // Adjust the height of the video container based on the calculated scroll area
-  let videoContainer = document.querySelector("#scroll-video-container");
+  let videoContainer = document.querySelector(".scroll-video-container");
   videoContainer.style.height = `${scrollAreaHeight}px`;
 
-  // GSAP and ScrollTrigger setup for video scrubbing
-  gsap.registerPlugin(ScrollTrigger);
-  let tl = gsap.timeline({
-      defaults: { duration: 1 },
-      scrollTrigger: {
-          trigger: "#scroll-video-container",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true
-      }
-  });
+  let videoTimeline = gsap.timeline();
 
-  // Video scrubbing based on scroll position
-  once(video, "loadedmetadata", () => {
-      tl.fromTo(video, { currentTime: 0 }, { currentTime: video.duration || 1 });
-  });
+  videoTimeline
+    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
+    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
+    // Assuming a brief period of normal playback to transition from the first slow down to the second
+    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
+    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+    .to(videoElement, {
+      currentTime: videoElement.duration,
+      duration: videoElement.duration - 5.6,
+      ease: "none",
+    }); // Continue to the end
 
-  // Attempt to preload video content as a blob for improved performance
-  setTimeout(() => {
-      if (window["fetch"]) {
-          fetch(src)
-              .then(response => response.blob())
-              .then(blob => {
-                  const blobURL = URL.createObjectURL(blob);
-                  video.src = blobURL;
-                  // After setting new src, try to maintain approximate current time
-                  video.currentTime += 0.01;
-              })
-              .catch(error => console.error("Failed to fetch video blob:", error));
-      }
-  }, 1000);
+  ScrollTrigger.create({
+    trigger: ".scroll-video-container",
+    start: "top top",
+    end: endValue,
+    pin: true,
+    pinSpacing: false,
+    scrub: true,
+    animation: videoTimeline,
+  });
 
   gsap.set(".text-element", { opacity: 0 });
 
