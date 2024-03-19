@@ -182,15 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let videoTimeline = gsap.timeline();
 
   videoTimeline
-    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "none" }) // Normal playback to 4.2s
-    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "none" }) // First slow down: Slight progress over a long duration
+    .to(videoElement, { currentTime: 4.2, duration: 4.2, ease: "power1.out" }) // Normal playback to 4.2s
+    .to(videoElement, { currentTime: 4.3, duration: 1.7, ease: "power1.out" }) // First slow down: Slight progress over a long duration
     // Assuming a brief period of normal playback to transition from the first slow down to the second
-    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "none" }) // Transition to 5.5s for the next slow down
-    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "none" }) // Second slow down: Similar slight progress over a long duration
+    .to(videoElement, { currentTime: 5.5, duration: 1.2, ease: "power1.out" }) // Transition to 5.5s for the next slow down
+    .to(videoElement, { currentTime: 5.501, duration: 1, ease: "power1.out" }) // Second slow down: Similar slight progress over a long duration
     .to(videoElement, {
       currentTime: videoElement.duration,
       duration: videoElement.duration - 5.6,
-      ease: "none",
+      ease: "power1.out",
     }); // Continue to the end
 
   ScrollTrigger.create({
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     end: endValue,
     pin: true,
     pinSpacing: false,
-    scrub: true,
+    scrub: 1, 
     animation: videoTimeline,
   });
 
